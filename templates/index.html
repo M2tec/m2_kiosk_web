@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/pos.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="{{ url_for('static', filename= 'js/script.js') }}" defer></script>
+    
+</head>
+<body>
+<div class="pos">
+<div class="screen">
+
+<div id="payment-page" class="payment-elements">
+
+    <div class="top-content">
+        <span class="button back" id="cancel-transaction">
+            <i class="fa fa-angle-double-left"></i>
+            Cancel
+        </span>
+        <h1>Payment</h1>
+        <span class="validation-message" id="validate-message">Payment validated</span>
+        <span class="button next" id="validate-transaction">
+            Validate
+            <i class="fa fa-angle-double-right"></i>
+        </span>
+    </div>
+
+    
+
+    <section class="paymentlines-container">
+    <table class="paymentlines">
+
+    <colgroup>
+        <col class="due">
+    </colgroup>
+    <thead>
+        <tr class="label">
+            <th>Due</th>
+        </tr>
+    </thead>
+        <tbody>
+            <tr class="paymentline selected">
+                <td style="height: 25px;" class="col-tendered edit" data-input="">
+                 0.00
+                </td>                            
+            </tr>                       
+        </tbody>
+
+    </table>
+    </section>
+
+    <section class="payment-numpad">
+        <div class="numpad">
+            <button class="input-button number-char" data-action="1">1</button>
+            <button class="input-button number-char" data-action="2">2</button>
+            <button class="input-button number-char" data-action="3">3</button>
+            <button class="mode-button" data-action="+10">+10</button>
+            <br>
+            <button class="input-button number-char" data-action="4">4</button>
+            <button class="input-button number-char" data-action="5">5</button>
+            <button class="input-button number-char" data-action="6">6</button>
+            <button class="mode-button" data-action="+20">+20</button>
+            <br>
+            <button class="input-button number-char" data-action="7">7</button>
+            <button class="input-button number-char" data-action="8">8</button>
+            <button class="input-button number-char" data-action="9">9</button>
+            <button class="mode-button" data-action="+50">+50</button>
+            <br>
+            <button class="input-button numpad-char" data-action="-">+/-</button>
+            <button class="input-button number-char" data-action="0">0</button>
+            <button class="input-button number-char" data-action=".">.</button>
+            <button class="input-button numpad-backspace" data-action="Backspace">
+                <img src="static/img/backspace.png" alt="Backspace" width="24" height="21">
+            </button>
+        </div>
+    </section>
+
+</div>
+
+<div id="config-page" class="config-elements">
+    <form id="config-form" action="/save-config-data" method="POST">
+    <div class="top-content">
+        <span class="button back" id="cancel-config">
+            <i class="fa fa-angle-double-left"></i>
+            Cancel
+        </span>
+        <h1>Configuration</h1>
+        <span class="button next" id="save-config">
+            Save
+            <i class="fa fa-angle-double-right"></i>
+        </span>
+    </div>
+
+    <section>
+
+        <table class="config-table">
+        <tbody>
+        <tr>
+            <td class="descriptions">Mainnet active</td> 
+            <td><input type="text" id="mainnet_active" name="mainnet_active" value={{ config_data['mainnet_active'] }}></td>                              
+        </tr>   
+        <tr>
+            <td class="descriptions">Mainnet wallet address</td> 
+            <td><input type="text" id="mainnet_wallet_address" name="mainnet_wallet_address" value={{ config_data['mainnet_wallet_address'] }}></td>                              
+        </tr> 
+        <tr>
+            <td class="descriptions">Testnet wallet address</td> 
+            <td><input type="text" id="testnet_wallet_address" name="testnet_wallet_address" value={{ config_data['testnet_wallet_address'] }}></td>                              
+        </tr> 
+        <tr>
+            <td class="descriptions">Decimal seperator</td> 
+            <td><input type="text" id="decimal_seperator" name="decimal_seperator" value={{ config_data['decimal_seperator'] }}></td>                              
+        </tr>                      
+        </tbody>
+        </table>
+    
+    </section>
+    </form>
+</div>
+
+<div class="config">
+    <button class="button back" data-action="Config">Configuration</button>
+</div>
+
+
+
+
+</div>
+</div>
+</body>
+</html>

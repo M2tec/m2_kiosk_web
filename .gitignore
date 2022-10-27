@@ -1,0 +1,11 @@
+/Documentation
+/env
+mnemonic.txt
+/node_modules
+package-lock.json
+*~
+/.idea
+__pycache__/
+*.py[cod]
+backup.json
+scrap_book.py
