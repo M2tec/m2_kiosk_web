@@ -6,7 +6,7 @@ After=network.target
 User=www-data
 Group=www-data
 WorkingDirectory=/var/www/m2_kiosk_web/
-ExecStart=/usr/bin/gunicorn --workers 3 --bind unix:/var/www/m2_kiosk_web/m2paypad.sock wsgi:app
+ExecStart=/usr/bin/gunicorn --workers 3 --bind unix:/var/www/m2-kiosk-web/m2paypad.sock wsgi:app
  
 [Install]
 WantedBy=multi-user.target
