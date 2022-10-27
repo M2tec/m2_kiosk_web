@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
-WorkingDirectory=/var/www/m2_kiosk_web/
+WorkingDirectory=/var/www/m2-kiosk-web/
 ExecStart=/usr/bin/gunicorn --workers 3 --bind unix:/var/www/m2-kiosk-web/m2paypad.sock wsgi:app
  
 [Install]
