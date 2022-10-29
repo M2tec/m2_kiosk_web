@@ -1,11 +1,17 @@
-
 class Paypad {
-    constructor(payAmountTextElement, validateMessage, mainnet_active, mainnet_wallet_address, testnet_wallet_address, decimal_seperator) {
+    constructor(payAmountTextElement, validateMessage, mainnet_active, mainnet_wallet_address, testnet_wallet_address, decimal_seperator, due_from, payment_data, request_type) {
         this.payAmountTextElement = payAmountTextElement;
+        this.payment_form = payment_form;
+        this.payment_data = payment_data;
+        this.request_type = request_type;
         this.clear();
-
         this.locale = decimal_seperator;
-        //this.locale = 'nl-NL'
+       
+        var host_m2 = window.location.host
+        console.log('host: ' + host_m2)
+
+        this.hostname_m2 = window.location.hostname
+        console.log('hostname: ' + this.hostname_m2)
 
     }
 
@@ -23,8 +29,7 @@ class Paypad {
             var oneDigit = false;
                
             if (decimalDigits.length == 1) {
-                oneDigit = true;
-                
+                oneDigit = true;                
             }
         }       
         
@@ -36,21 +41,16 @@ class Paypad {
         }
                 
         this.updateDisplay(number);
-        
     }
 
     addNumber(amount) {
-        //console.log('\naddNumber')
         var storedInput = this.payAmountTextElement.dataset.input;  
-        //console.log(storedInput);
 
         if (isNaN(parseFloat(storedInput))) {
             storedInput = 0
-            //console.log('isNaN');
         }
-                
-        var number = parseFloat(storedInput) + amount;
-        
+
+        var number = parseFloat(storedInput) + amount;       
         this.updateDisplay(number);
     }
 
@@ -71,144 +71,68 @@ class Paypad {
         }
         
         if (tooManyDigits) return
-        
-        if (number === '.' && storedInput.includes('.') ) return
-        
+        if (number === '.' && storedInput.includes('.') ) return        
         number = storedInput + number.toString();
-         
-        //console.log("---------");
-        //console.log(number);
-        
         this.updateDisplay(number);
     }
  
     updateDisplay(number) {
-        //console.log('updateDisplay');
-        // Only for display
-        
+        //console.log('updateDisplay');       
         // Store the data seperately from the internationalised value
-        this.payAmountTextElement.dataset.input = number;
-        //console.log(number);
-        
+        this.payAmountTextElement.dataset.input = number;       
         if (isNaN(parseFloat(number))) {
             number = 0
             //console.log('isNaN');
         }
-        
         this.payAmountTextElement.innerText = parseFloat(number).toLocaleString(this.locale, {style:"currency", currency:"EUR"});
     }
 
     async sendPayRequest(amount) {
-        
-        
+            
         var wallet_address = ""
         var network_type = ""
         
-        console.log('mainnet_active: ' + mainnet_active)
+        //console.log('mainnet_active: ' + mainnet_active)
         
         if (mainnet_active == 'True') {
-            console.log('mainnet')
+        //    console.log('mainnet')
             network_type = 'mainnet'
             wallet_address = mainnet_wallet_address;
         } else {
-            console.log('testnet')
+        //    console.log('testnet')
             network_type = 'testnet'
             wallet_address = testnet_wallet_address;
         }
         
         const now = new Date();
-        console.log("now:" + now)
-        
+        //console.log("now:" + now)
         var randomID = Math.floor(Math.random() * 10000);
-        
-        var orderName = 'Order ' + (now.getMonth() +1) + now.getDate() + now.getHours() + now.getMinutes() + randomID
+        var transaction_id = (now.getMonth() +1) + now.getDate() + now.getHours() + now.getMinutes() + randomID
                 
-        //amount = Math.floor(amount * 1000000)
         const data = {
             "network_type": network_type,
-            "name": orderName,
+            "transaction_id": transaction_id,
             "wallet_address": wallet_address,
-            "total_with_tax": amount
+            "amount": amount
         }
         
-        console.log(JSON.stringify(data))
-        
-        var url = "http://m2paypad.home:9090/payment-request"    
-	console.log(url)        
-	const response = fetch(url, {
-            "method": "POST",
-            "body": JSON.stringify(data),            
-        });
-                     
-        getStatus(data)
-
+        // Submit the payment request form
+        console.log(JSON.stringify(data))     
+        console.log(request_type)      
+        this.request_type.value = 'sendPayRequest'
+        this.payment_data.value = JSON.stringify(data)
+        this.payment_form.submit();
     }
 
     async cancelPayRequest() {
-        const url = "http://m2paypad.home:9090/clear-display"
-       
-        const response = fetch(url, {
-            "method": "GET",
-        });
+        this.request_type.value = 'cancelPayRequest'    
+        this.payment_form.submit();   
         
         validateMessage.style.visibility = "hidden";
-           
-        //const responseText = await response();
-        //console.log(responseText); // logs 'OK'
     }
-        
-
-    
-
 }
 
-async function getStatus(data) {
-    var url = "http://m2paypad.home:9090/payment-status"    
-    let response = await fetch(url, {
-        "method": "POST",
-        "body": JSON.stringify(data),
-    })
-    //console.log('getStatus')
-    
-    if (response.status == 502) {
-    console.log("502")
-        // Status 502 is a connection timeout error,
-        // may happen when the connection was pending for too long,
-        // and the remote server or a proxy closed it
-        // let's reconnect
-        await getStatus(data);
-    } else if (response.status == 200) {
-        console.log("200")
-        // An error - let's show it
-        console.log(response.statusText);
-        
-        payment_status = response.statusText
-        if (payment_status == 'not_received') {
-            // Reconnect in one second
-            await new Promise(resolve => setTimeout(resolve, 10000));
-            await getStatus(data);
-        } else {
-            validateMessage.style.visibility = "visible";
-        }
-        
-    } else {
-        console.log("else")
-               
-        console.log(response.statusText);
-        // Get and show the message
-        //let message = await response.text();
-        //showMessage(message);
-        // Call subscribe() again to get the next message
-        // await getStatus(data);
-    }
-    
-    
-}    
-
-
 const payAmountTextElement = document.querySelector('[data-input]');
-
-
 
 const paymentPage = document.getElementById('payment-page') ;
 const configPage = document.getElementById('config-page');
@@ -222,6 +146,9 @@ const validateTransactionButton = document.getElementById('validate-transaction'
 const validateMessage = document.getElementById('validate-message');
 
 var form = document.getElementById("config-form");
+var payment_form = document.getElementById("payment-form");
+var payment_data = document.getElementsByName("payment-data")[0];
+var request_type = document.getElementsByName("request-type")[0];
 
 const mainnet_active = document.getElementById('mainnet_active').value ;
 const mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;
@@ -229,7 +156,7 @@ const testnet_wallet_address = document.getElementById('testnet_wallet_address')
 const decimal_seperator = document.getElementById('decimal_seperator').value ;
 
 const numberButtons = document.querySelectorAll('[data-action]');
-const paypad = new Paypad(payAmountTextElement, validateMessage, mainnet_active, mainnet_wallet_address, testnet_wallet_address, decimal_seperator);
+const paypad = new Paypad(payAmountTextElement, validateMessage, mainnet_active, mainnet_wallet_address, testnet_wallet_address, decimal_seperator, payment_form, payment_data, request_type);
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
@@ -305,14 +232,11 @@ document.addEventListener('click', function (event) {
         paypad.cancelPayRequest()
     }
     if (validateTransactionButton.contains(event.target)) {
-    //console.log('clicked inside');
         amount = paypad.payAmountTextElement.dataset.input
         console.log(amount);
         paypad.sendPayRequest(amount);
-    }
-        
-        
-  });
+    }   
+});
 
 document.addEventListener('keydown', function (event) {
     console.log(event.key);
@@ -330,10 +254,8 @@ document.addEventListener('keydown', function (event) {
         }
         
         if (event.key == "Backspace") {
-            
                 event.preventDefault();
                 paypad.delete()
-          
         }
         
         if (event.key == 'Delete') {
@@ -353,6 +275,5 @@ document.addEventListener('keydown', function (event) {
             event.preventDefault();
             console.log('Cancel transaction');
         } 
-    }
-    
-  });
+    }    
+});

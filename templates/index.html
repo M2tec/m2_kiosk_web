@@ -41,11 +41,15 @@
         </tr>
     </thead>
         <tbody>
+            <form id="payment-form" method="post" action="/">
             <tr class="paymentline selected">
                 <td style="height: 25px;" class="col-tendered edit" data-input="">
                  0.00
-                </td>                            
-            </tr>                       
+                </td>
+                <input type="hidden" value="VALUE1" name="request-type"/>  
+                <input type="hidden" value="VALUE1" name="payment-data"/>
+                </tr>
+            </form>                       
         </tbody>
 
     </table>
