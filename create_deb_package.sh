@@ -39,14 +39,14 @@ function create_package() {
     # Clear out .pyc
     py3clean ${PACKAGE_BUILDDEB}
     
-    DEB="${SCRIPT_DIR}/../${M2_DEBS}/${PACKAGE}_${NEW_VERSION}-1.deb"
+    DEB="${SCRIPT_DIR}/../${M2_DEBS}/${PACKAGE}_${NEW_VERSION}_all.deb"
     dpkg-deb --build -Zgzip ${PACKAGE_BUILDDEB} $DEB 
     
     echo "Copying to latest"
     LATEST="${SCRIPT_DIR}/../${M2_DEBS}/latest/"
     
     cd ${LATEST}
-    rm -rf ${PACKAGE}_*-1.deb
+    rm -rf ${PACKAGE}_*.deb
     cd ${SCRIPT_DIR}
     
     cp ${DEB} ${LATEST}
@@ -61,7 +61,6 @@ echo
 PACKAGE_BUILDDEB="${SCRIPT_DIR}/../${PACKAGE}_builddeb"
 M2_DEBS="m2-debs"
 
-autopep8 --in-place --aggressive --max-line-length 100 m2-kiosk-app
 autopep8 --recursive --in-place --aggressive --max-line-length 100 *.py
 
 if git diff-index --quiet HEAD --; then
