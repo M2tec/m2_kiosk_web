@@ -9,7 +9,7 @@ install_data('m2_kiosk_web_config.json', install_dir: 'var/www/m2-kiosk-web')
 install_data('main.py', install_dir: 'var/www/m2-kiosk-web')
 install_data('wsgi.py', install_dir: 'var/www/m2-kiosk-web')
 
-install_subdir('systemd', install_dir: '')
+install_data('systemd/m2paypad.service', install_dir: 'lib/systemd/system')
 install_subdir('etc', install_dir: '')
 
 install_subdir('DEBIAN', install_dir: '')
