@@ -1,0 +1,10 @@
+
+ln -s /etc/nginx/sites-available/m2paypad.conf /etc/nginx/sites-enabled/m2paypad.conf
+rm -rf /etc/nginx/sites-enabled/default
+
+chown -R www-data:www-data /var/www/m2-kiosk-web/
+
+systemctl enable m2paypad
+systemctl start m2paypad
+systemctl enable nginx
+systemctl restart nginx

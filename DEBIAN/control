@@ -1,0 +1,6 @@
+Package: m2-kiosk-web
+Version: 0.102
+Maintainer: M2tec
+Architecture: all
+Description: Cardano payment web app 
+Source: m2-kiosk-web
