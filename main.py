@@ -22,6 +22,38 @@ f = open(ROOT_DIR + '/m2_kiosk_web_config.json')
 config_data = json.load(f)
 f.close()
 
+HOME_DIR = os.path.expanduser('~')
+print(HOME_DIR)
+
+try:
+    config_folder = HOME_DIR + "/.config/m2-kiosk-app/"
+    config_file = "config.json"
+    f = open(config_file)
+    config_data = json.load(f)
+    f.close()
+except FileNotFoundError:
+    print("Config file not found: " + config_folder + config_file)
+    print("Creating new config file")
+
+    try:
+        os.mkdir(config_folder)
+    except OSError as error:
+         
+         print(error)
+
+    try:
+        f = open("config_template.json", "r")
+        template_data = f.read()
+        f.close()
+
+        f = open(config_folder + config_file, "w")
+        f.write(template_data)
+        f.close()
+
+    except FileNotFoundError:
+        print("Template file not found")
+        quit()
+
 
 def send_kiosk_request(request_type, data):
     # print(data)
