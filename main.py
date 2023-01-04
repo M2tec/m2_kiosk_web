@@ -8,6 +8,7 @@ import logging
 import json
 from pprint import pprint
 import requests
+import platform
 
 app = Flask(__name__)
 CORS(app)
@@ -26,7 +27,11 @@ HOME_DIR = os.path.expanduser('~')
 print(HOME_DIR)
 
 try:
-    config_folder = ROOT_DIR + "/.config/"
+    if platform.machine() == 'x86_64':
+        config_folder = HOME_DIR + "/.config/m2-kiosk-app/"
+    else:
+        config_folder = "/var/www/m2-kiosk-app/.config/"
+
     config_file = "config.json"
     f = open(config_folder + config_file)
     config_data = json.load(f)
@@ -57,14 +62,14 @@ if create_config:
         f = open(config_folder + config_file, "w")
         f.write(template_data)
         f.close()
-    except Error as e:
+    except OSError as e:
         print(e)
 
     try:
         f = open(config_folder + config_file)
         config_data = json.load(f)
         f.close()
-    except Error as e:
+    except OSError as e:
         print(e)
 
 print(config_data)
@@ -93,10 +98,14 @@ def m2_paypad_web_app():
             print('Pay request')
             json_data = json.loads(data['payment-data'])
             pprint(json_data)
+
+            network_type = json_data['network_type']
             transaction_id = json_data['transaction_id']
             wallet_address = json_data['wallet_address']
             amount = json_data['amount']
+
             json_data = {
+                "network_type": network_type,
                 "transaction_id": transaction_id,
                 "wallet_address": wallet_address,
                 "amount": amount}

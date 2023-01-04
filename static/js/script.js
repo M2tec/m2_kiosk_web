@@ -1,5 +1,5 @@
 class Paypad {
-    constructor(payAmountTextElement, validateMessage, mainnet_active, mainnet_wallet_address, testnet_wallet_address, decimal_seperator, due_from, payment_data, request_type) {
+    constructor(payAmountTextElement, validateMessage, networkt_type, mainnet_wallet_address, testnet_wallet_address, decimal_seperator, due_from, payment_data, request_type) {
         this.payAmountTextElement = payAmountTextElement;
         this.payment_form = payment_form;
         this.payment_data = payment_data;
@@ -84,30 +84,36 @@ class Paypad {
             number = 0
             //console.log('isNaN');
         }
-        this.payAmountTextElement.innerText = parseFloat(number).toLocaleString(this.locale, {style:"currency", currency:"EUR"});
+        this.payAmountTextElement.innerText = parseFloat(number).toFixed(2);
     }
+    //this.payAmountTextElement.innerText = parseFloat(number).toLocaleString(this.locale, {style:"currency", currency:"EUR"});
 
     async sendPayRequest(amount) {
             
         var wallet_address = ""
-        var network_type = ""
+        //var network_type = ""
         
         //console.log('mainnet_active: ' + mainnet_active)
         
-        if (mainnet_active == 'True') {
+        if (network_type == 'mainnet') {
         //    console.log('mainnet')
-            network_type = 'mainnet'
             wallet_address = mainnet_wallet_address;
         } else {
-        //    console.log('testnet')
-            network_type = 'testnet'
             wallet_address = testnet_wallet_address;
         }
         
         const now = new Date();
         //console.log("now:" + now)
-        var randomID = Math.floor(Math.random() * 10000);
-        var transaction_id = (now.getMonth() +1) + now.getDate() + now.getHours() + now.getMinutes() + randomID
+        
+        var year = (now.getYear() - 100).toString() 
+        var month = (('0' + (now.getMonth() +1)).slice(-2)).toString()
+        var day  = (('0' + (now.getDate())).slice(-2)).toString()
+        var hours = (('0' + (now.getHours())).slice(-2)).toString()    
+        var minutes = (('0' + (now.getMinutes())).slice(-2)).toString()
+        var randomID = Math.floor(Math.random() * 10000);      
+        
+        var transaction_id = year + month  + day + "-" + hours + minutes + "-" + randomID
+        //console.log(transaction_id)
                 
         const data = {
             "network_type": network_type,
