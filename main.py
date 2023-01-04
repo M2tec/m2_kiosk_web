@@ -30,7 +30,7 @@ try:
     if platform.machine() == 'x86_64':
         config_folder = HOME_DIR + "/.config/m2-kiosk-app/"
     else:
-        config_folder = "/var/www/m2-kiosk-app/.config/"
+        config_folder = "/var/www/m2-kiosk-web/.config/"
 
     config_file = "config.json"
     f = open(config_folder + config_file)
