@@ -38,8 +38,7 @@ except FileNotFoundError:
     try:
         os.mkdir(config_folder)
     except OSError as error:
-         
-         print(error)
+        print(error)
 
     try:
         f = open("config_template.json", "r")
