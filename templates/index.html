@@ -103,19 +103,19 @@
         <tbody>
         <tr>
             <td class="descriptions">Mainnet active</td> 
-            <td><input type="text" id="mainnet_active" name="mainnet_active" value={{ config_data['mainnet_active'] }}></td>                              
+            <td><input type="text" id="network_type" name="network_type" value={{ config_data['cardano']['network_type'] }}></td>                              
         </tr>   
         <tr>
             <td class="descriptions">Mainnet wallet address</td> 
-            <td><input type="text" id="mainnet_wallet_address" name="mainnet_wallet_address" value={{ config_data['mainnet_wallet_address'] }}></td>                              
+            <td><input type="text" id="mainnet_wallet_address" name="mainnet_wallet_address" value={{ config_data['cardano']['mainnet_wallet_address'] }}></td>                              
         </tr> 
         <tr>
             <td class="descriptions">Testnet wallet address</td> 
-            <td><input type="text" id="testnet_wallet_address" name="testnet_wallet_address" value={{ config_data['testnet_wallet_address'] }}></td>                              
+            <td><input type="text" id="testnet_wallet_address" name="testnet_wallet_address" value={{ config_data['cardano']['testnet_wallet_address'] }}></td>                              
         </tr> 
         <tr>
             <td class="descriptions">Decimal seperator</td> 
-            <td><input type="text" id="decimal_seperator" name="decimal_seperator" value={{ config_data['decimal_seperator'] }}></td>                              
+            <td><input type="text" id="decimal_seperator" name="decimal_seperator" value={{ config_data['globals']['decimal_seperator'] }}></td>                              
         </tr>                      
         </tbody>
         </table>

@@ -1,6 +1,6 @@
 {
-    "mainnet_active": "False",
-    "mainnet_wallet_address": "addr1q9775ah7haxldk9zkfxaq89wyxufwxe0q0nwweldkgelprraa34ejmlp0zfag3cp846rt370x3rxm4a5u05ctmefxd4qley9fv",
-    "testnet_wallet_address": "addr_test1qzn58ztr9t4eaxxzg4nxr7drzfe4gpl0rkx0rjjp70q3nzwm4uhvu74emhsyrtpqpqjt0hk2mflktqrvl3dn5hym6pes9nrq8r",
-    "decimal_seperator": "nl-NL"
+    "network_type": "testnet",
+    "mainnet_wallet_address": "",
+    "testnet_wallet_address": "",
+    "decimal_seperator2": "en-GB"
 }

@@ -150,13 +150,13 @@ var payment_form = document.getElementById("payment-form");
 var payment_data = document.getElementsByName("payment-data")[0];
 var request_type = document.getElementsByName("request-type")[0];
 
-const mainnet_active = document.getElementById('mainnet_active').value ;
+const network_type = document.getElementById('network_type').value ;
 const mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;
 const testnet_wallet_address = document.getElementById('testnet_wallet_address').value ;
 const decimal_seperator = document.getElementById('decimal_seperator').value ;
 
 const numberButtons = document.querySelectorAll('[data-action]');
-const paypad = new Paypad(payAmountTextElement, validateMessage, mainnet_active, mainnet_wallet_address, testnet_wallet_address, decimal_seperator, payment_form, payment_data, request_type);
+const paypad = new Paypad(payAmountTextElement, validateMessage, network_type, mainnet_wallet_address, testnet_wallet_address, decimal_seperator, payment_form, payment_data, request_type);
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {

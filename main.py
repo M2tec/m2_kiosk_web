@@ -31,6 +31,7 @@ try:
     f = open(config_folder + config_file)
     config_data = json.load(f)
     f.close()
+    create_config = False
 except FileNotFoundError:
     print("Config file not found: " + config_folder + config_file)
     create_config = True
@@ -117,12 +118,25 @@ def m2_paypad_web_app():
 
 @app.route('/save-config-data', methods=['GET', 'POST'])
 def save_config_data():
+    print('==== save_config_data() ======')
     if request.method == 'POST':
         print('save')
-        config_data = request.form.to_dict()
-        pprint(config_data)
+        form_data = request.form.to_dict()
+        pprint(form_data)
 
-        with open('m2_kiosk_web_config.json', 'w') as f:
+        try:
+            f = open(config_folder + config_file)
+            config_data = json.load(f)
+            f.close()
+        except Error as e:
+            print(e)
+
+        config_data['cardano']['network_type'] = form_data['network_type']
+        config_data['cardano']['testnet_wallet_address'] = form_data['testnet_wallet_address']
+        config_data['cardano']['mainnet_wallet_address'] = form_data['mainnet_wallet_address']
+        config_data['globals']['decimal_seperator'] = form_data['decimal_seperator']
+
+        with open(config_folder + config_file, 'w') as f:
             json.dump(config_data, f, ensure_ascii=False, indent=4)
 
     return render_template('index.html', config_data=config_data)
