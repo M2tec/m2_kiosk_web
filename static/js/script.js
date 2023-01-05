@@ -1,18 +1,21 @@
 class Paypad {
-    constructor(payAmountTextElement, validateMessage, networkt_type, mainnet_wallet_address, testnet_wallet_address, locale, due_from, payment_data, request_type) {
+    constructor(payAmountTextElement, validateMessage, networkt_type, mainnet_wallet_address, testnet_wallet_address, locale_setting, due_from, payment_data, request_type, pad_dot) {
+        this.locale = locale_setting.split(".")[0].replace('_','-');
+        console.log(this.locale)
+        
         this.payAmountTextElement = payAmountTextElement;
         this.payment_form = payment_form;
         this.payment_data = payment_data;
         this.request_type = request_type;
         this.clear();
-        this.locale = locale;
-       
         var host_m2 = window.location.host
         console.log('host: ' + host_m2)
 
         this.hostname_m2 = window.location.hostname
-        console.log('hostname: ' + this.hostname_m2)
-
+        //console.log('hostname: ' + this.hostname_m2)
+    
+        var decimalSeparator = (1.1).toLocaleString(this.locale, { useGrouping: true, minimumFractionDigits: 2 }).substring(1, 2);
+        pad_dot.innerText=decimalSeparator
     }
 
     clear() {
@@ -59,6 +62,8 @@ class Paypad {
               
         // Get data
         var storedInput = this.payAmountTextElement.dataset.input;        
+        console.log("Stored input: " + this.payAmountTextElement.dataset.input)
+        
         
         //console.log(storedInput)
         if (storedInput.includes('.')) {
@@ -77,14 +82,16 @@ class Paypad {
     }
  
     updateDisplay(number) {
-        //console.log('updateDisplay');       
+        //console.log('updateDisplay: ' + number);       
         // Store the data seperately from the internationalised value
         this.payAmountTextElement.dataset.input = number;       
         if (isNaN(parseFloat(number))) {
             number = 0
             //console.log('isNaN');
         }
-        this.payAmountTextElement.innerText = parseFloat(number).toFixed(2);
+        //console.log("The number is: " + number)
+        //console.log("Type of the number: " + typeof(number))
+        this.payAmountTextElement.innerText = parseFloat(number).toLocaleString(this.locale, { useGrouping: true, minimumFractionDigits: 2 });
     }
     //this.payAmountTextElement.innerText = parseFloat(number).toLocaleString(this.locale, {style:"currency", currency:"EUR"});
 
@@ -143,7 +150,7 @@ const payAmountTextElement = document.querySelector('[data-input]');
 const paymentPage = document.getElementById('payment-page') ;
 const configPage = document.getElementById('config-page');
 configPage.style.visibility = 'hidden';
-console.log('config viz ' + configPage.style.visibility);
+//console.log('config viz ' + configPage.style.visibility);
 
 const cancelConfigButton = document.getElementById('cancel-config');
 const saveConfigButton = document.getElementById('save-config');
@@ -159,10 +166,11 @@ var request_type = document.getElementsByName("request-type")[0];
 const network_type = document.getElementById('network_type').value ;
 const mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;
 const testnet_wallet_address = document.getElementById('testnet_wallet_address').value ;
-const locale = document.getElementById('locale').value ;
+const locale_setting = document.getElementById('locale_setting').value ;
+const pad_dot = document.getElementById('Dot')
 
 const numberButtons = document.querySelectorAll('[data-action]');
-const paypad = new Paypad(payAmountTextElement, validateMessage, network_type, mainnet_wallet_address, testnet_wallet_address, locale, payment_form, payment_data, request_type);
+const paypad = new Paypad(payAmountTextElement, validateMessage, network_type, mainnet_wallet_address, testnet_wallet_address, locale_setting, payment_form, payment_data, request_type, pad_dot);
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
@@ -174,8 +182,9 @@ numberButtons.forEach(button => {
         paypad.appendNumber(buttonAction)
     }
     
-    if (buttonAction == ".") {
-        paypad.appendNumber(buttonAction)
+    if (buttonAction == "dot") {
+        
+        paypad.appendNumber(".")
     }
     
     if (buttonAction === "Backspace") {

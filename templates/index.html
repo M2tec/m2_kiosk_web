@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Payment</title>
+    <title>Payment - BETA TEST</title>
     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/pos.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script src="{{ url_for('static', filename= 'js/script.js') }}" defer></script>
@@ -30,8 +30,9 @@
     
 
     <section class="paymentlines-container">
+    
+    <form id="payment-form" method="post" action="/">
     <table class="paymentlines">
-
     <colgroup>
         <col class="due">
     </colgroup>
@@ -41,20 +42,25 @@
         </tr>
     </thead>
         <tbody>
-            <form id="payment-form" method="post" action="/">
+            
             <tr class="paymentline selected">
-                <td style="height: 25px;" class="col-tendered edit" data-input="">
-                 0.00
+                <td style="height: 25px;" class="col-tendered edit" data-input="0">
+                 "0,00"
                 </td>
                 <input type="hidden" value="VALUE1" name="request-type"/>  
                 <input type="hidden" value="VALUE1" name="payment-data"/>
-                </tr>
-            </form>                       
+            </tr>
+            <tr>
+                <td>Minimum amount is 1 ADA</td>
+            </tr>
+                               
         </tbody>
-
+    
     </table>
+    </form>   
+     
     </section>
-    Minimum amount is 1 ADA
+    
     <section class="payment-numpad">
         <div class="numpad">
             <button class="input-button number-char" data-action="1">1</button>
@@ -72,9 +78,9 @@
             <button class="input-button number-char" data-action="9">9</button>
             <button class="mode-button" data-action="+50">+50</button>
             <br>
-            <button class="input-button numpad-char" data-action="-">+/-</button>
+            <button class="input-button numpad-char" data-action="-"></button>
             <button class="input-button number-char" data-action="0">0</button>
-            <button class="input-button number-char" data-action=".">.</button>
+            <button class="input-button number-char" id="Dot" data-action="dot">.</button>
             <button class="input-button numpad-backspace" data-action="Backspace">
                 <img src="static/img/backspace.png" alt="Backspace" width="24" height="21">
             </button>
@@ -115,7 +121,7 @@
         </tr> 
         <tr>
             <td class="descriptions">Decimal seperator</td> 
-            <td><input type="text" id="locale" name="locale" value={{ config_data['globals']['locale'] }}></td>                              
+            <td><input type="text" id="locale_setting" name="locale_setting" value={{ config_data['globals']['locale_setting'] }}></td>                              
         </tr>                      
         </tbody>
         </table>
