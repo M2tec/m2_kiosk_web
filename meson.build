@@ -4,7 +4,7 @@ project('m2-kiosk-web',
 install_subdir('CalculatorJS-Section-main', install_dir: 'var/www/m2-kiosk-web')
 install_subdir('static', install_dir: 'var/www/m2-kiosk-web')
 install_subdir('templates', install_dir: 'var/www/m2-kiosk-web')
-s
+
 install_data('main.py', install_dir: 'var/www/m2-kiosk-web')
 install_data('wsgi.py', install_dir: 'var/www/m2-kiosk-web')
 install_data('config_template.json', install_dir: 'var/www/m2-kiosk-web')
