@@ -143,7 +143,7 @@ def save_config_data():
         config_data['cardano']['network_type'] = form_data['network_type']
         config_data['cardano']['testnet_wallet_address'] = form_data['testnet_wallet_address']
         config_data['cardano']['mainnet_wallet_address'] = form_data['mainnet_wallet_address']
-        config_data['globals']['decimal_seperator'] = form_data['decimal_seperator']
+        config_data['globals']['locale'] = form_data['locale']
 
         with open(config_folder + config_file, 'w') as f:
             json.dump(config_data, f, ensure_ascii=False, indent=4)

@@ -1,11 +1,11 @@
 class Paypad {
-    constructor(payAmountTextElement, validateMessage, networkt_type, mainnet_wallet_address, testnet_wallet_address, decimal_seperator, due_from, payment_data, request_type) {
+    constructor(payAmountTextElement, validateMessage, networkt_type, mainnet_wallet_address, testnet_wallet_address, locale, due_from, payment_data, request_type) {
         this.payAmountTextElement = payAmountTextElement;
         this.payment_form = payment_form;
         this.payment_data = payment_data;
         this.request_type = request_type;
         this.clear();
-        this.locale = decimal_seperator;
+        this.locale = locale;
        
         var host_m2 = window.location.host
         console.log('host: ' + host_m2)
@@ -159,10 +159,10 @@ var request_type = document.getElementsByName("request-type")[0];
 const network_type = document.getElementById('network_type').value ;
 const mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;
 const testnet_wallet_address = document.getElementById('testnet_wallet_address').value ;
-const decimal_seperator = document.getElementById('decimal_seperator').value ;
+const locale = document.getElementById('locale').value ;
 
 const numberButtons = document.querySelectorAll('[data-action]');
-const paypad = new Paypad(payAmountTextElement, validateMessage, network_type, mainnet_wallet_address, testnet_wallet_address, decimal_seperator, payment_form, payment_data, request_type);
+const paypad = new Paypad(payAmountTextElement, validateMessage, network_type, mainnet_wallet_address, testnet_wallet_address, locale, payment_form, payment_data, request_type);
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
