@@ -1,5 +1,7 @@
 /Documentation
 /env
+/.config
+/static/js/old
 mnemonic.txt
 /node_modules
 package-lock.json
