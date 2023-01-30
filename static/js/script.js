@@ -149,7 +149,7 @@ const payAmountTextElement = document.querySelector('[data-input]');
 
 const paymentPage = document.getElementById('payment-page') ;
 const configPage = document.getElementById('config-page');
-configPage.style.visibility = 'hidden';
+configPage.style.display = 'none';
 //console.log('config viz ' + configPage.style.visibility);
 
 const cancelConfigButton = document.getElementById('cancel-config');
@@ -208,15 +208,15 @@ numberButtons.forEach(button => {
         //console.log(paymentPage);
         //console.log(paymentPage.style.visibility);
         
-        if (paymentPage.style.visibility == "hidden") {
+        if (paymentPage.style.display == "none") {
             //console.log("show");
-            paymentPage.style.visibility = "visible";
-            configPage.style.visibility = "hidden";
+            paymentPage.style.display = "block";
+            configPage.style.display = "none";
             console.log(paymentPage);
         } else {
             //console.log("hide")
-            paymentPage.style.visibility = "hidden";
-            configPage.style.visibility = "visible";
+            paymentPage.style.display = "none";
+            configPage.style.display = "block";
         }       
     }  
   })
@@ -225,15 +225,15 @@ numberButtons.forEach(button => {
 document.addEventListener('click', function (event) {
     if (cancelConfigButton.contains(event.target)) {
         console.log('cancel config');
-        if (paymentPage.style.visibility == "hidden") {
+        if (paymentPage.style.display == "none") {
             //console.log("show");
-            paymentPage.style.visibility = "visible";
-            configPage.style.visibility = "hidden";
+            paymentPage.style.display = "block";
+            configPage.style.display = "none";
             console.log(paymentPage);
         } else {
             //console.log("hide")
-            paymentPage.style.visibility = "hidden";
-            configPage.style.visibility = "visible";
+            paymentPage.style.display = "none";
+            configPage.style.display = "block";
         }    
         }
         
@@ -256,7 +256,7 @@ document.addEventListener('click', function (event) {
 document.addEventListener('keydown', function (event) {
     console.log(event.key);
     
-    if (configPage.style.visibility == "hidden"  ) {    
+    if (configPage.style.display == "none"  ) {    
         if (event.key >= "0" && event.key <= "9") {
             event.preventDefault();
             paypad.appendNumber(event.key);       
