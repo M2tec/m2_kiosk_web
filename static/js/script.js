@@ -166,6 +166,7 @@ class Paypad {
 
 
 const paymentPage = document.getElementById('payment-page') ;
+paymentPage.style.display = 'none';
 const cancelTransactionButton = document.getElementById('cancel-transaction');
 const payAmountTextElement = document.querySelector('[data-input]');
 const validateTransactionButton = document.getElementById('validate-transaction');
@@ -180,7 +181,7 @@ var selectedToken = document.getElementById("selectedToken");
 
 
 const configPage = document.getElementById('config-page');
-configPage.style.display = 'none';
+configPage.style.display = 'block';
 var form = document.getElementById("config-form");
 const cancelConfigButton = document.getElementById('cancel-config');
 const saveConfigButton = document.getElementById('save-config');

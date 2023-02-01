@@ -71,7 +71,12 @@
 
     <div class="config-grid">
         <div class="config-field">Network type</div>
-        <div class="config-field"><input type="text" id="network_type" name="network_type" value={{ config_data['cardano']['network_type'] }}></div>
+        <label class="toggle">
+            <input type="checkbox">
+            <span class="slider"></span>
+            <span class="labels" data-on="Mainnet" data-off="Testnet"></span>
+        </label>
+        <!--<div class="config-field"><input type="text" id="network_type" name="network_type" value={{ config_data['cardano']['network_type'] }}></div>-->
 
         <div class="config-field">Mainnet wallet address</div>
         <div class="config-field"><input type="text" id="mainnet_wallet_address" name="mainnet_wallet_address" value={{ config_data['cardano']['mainnet_wallet_address'] }}></div>
