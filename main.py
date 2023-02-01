@@ -105,26 +105,14 @@ def m2_paypad_web_app():
     if request.method == 'POST':
         # print('POST request')
         data = request.form.to_dict()
-        print()
-        pprint(data)
-        print()
+        print(data)
 
         if data['request-type'] == 'sendPayRequest':
             print('Pay request')
             json_data = json.loads(data['payment-data'])
-            # pprint(json_data)
-
-            network_type = json_data['network_type']
-            transaction_id = json_data['transaction_id']
-            wallet_address = json_data['wallet_address']
-            amount = json_data['amount']
-
-            json_data = {
-                "network_type": network_type,
-                "transaction_id": transaction_id,
-                "wallet_address": wallet_address,
-                "amount": amount}
-
+            pprint(type(json_data))
+            pprint(json_data)
+            
             send_kiosk_request('/payment-request', json_data)
 
         elif data['request-type'] == 'cancelPayRequest':

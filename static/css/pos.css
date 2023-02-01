@@ -40,11 +40,20 @@ button:hover {
     background-color: var(--background-color);
 }
 
-.paymentbar {
+.topbar {
     display: flex;
     gap: 10px;
     padding: 20px;
 	border-bottom: dashed 1px var(--line-color);
+}
+
+.topbar-header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 25px;
 }
 
 .dropbtn {
@@ -75,12 +84,16 @@ button:hover {
     z-index: 1;
 }
 
-.dropdown-content a {
+.dropdown-content button {
     color: var(--font-color);
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     margin:0px;
+    outline: none;
+    border-radius: 0px;
+    width: 100%;
+    text-align: left;
 }
 
 .dropdown-content a:hover {background-color: var(--button-background-color);}
@@ -150,14 +163,31 @@ button:hover {
 }
 
 
-.config {
+.config-button {
 	position: fixed;
 	display: flex;
 	padding:20px;
 	bottom: 0px;
 	gap: 10px;
-	
 }
+
+.config-grid {
+    display: grid;
+    grid-template-columns: 250px 100%;
+    grid-gap: 8px;
+    padding: 20px;
+}
+
+.config-field input{
+    border: none;
+    width: 50%;
+    background: var(--payment-line-background);
+	color: var(--currency-background-color);
+	border-radius: 3px;
+    outline: solid 1px var(--line-color);
+    padding:5px;
+}
+
 
 .darkmode {
     line-height: 0.3px;

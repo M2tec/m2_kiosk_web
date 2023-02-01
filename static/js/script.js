@@ -1,12 +1,17 @@
 class Paypad {
-    constructor(payAmountTextElement, validateMessage, networkt_type, mainnet_wallet_address, testnet_wallet_address, locale_setting, due_from, payment_data, request_type, pad_dot) {
+    constructor(payAmountTextElement, payment_data, request_type, pad_dot) {         
+        console.log("Constructor")
+        var locale_setting = document.getElementById('locale_setting').value ;  
         this.locale = locale_setting.split(".")[0].replace('_','-');
         console.log(this.locale)
-        
+
         this.payAmountTextElement = payAmountTextElement;
-        this.payment_form = payment_form;
+        this.payment_form = document.getElementById("payment-form");
         this.payment_data = payment_data;
         this.request_type = request_type;
+                    
+        var validateMessage = document.getElementById('validate-message');        
+        
         this.clear();
         var host_m2 = window.location.host
         console.log('host: ' + host_m2)
@@ -14,6 +19,7 @@ class Paypad {
         this.hostname_m2 = window.location.hostname
         //console.log('hostname: ' + this.hostname_m2)
     
+        //Finde the decimal seperator of this locale and set it on the keypad
         var decimalSeparator = (1.1).toLocaleString(this.locale, { useGrouping: true, minimumFractionDigits: 2 }).substring(1, 2);
         pad_dot.innerText=decimalSeparator
     }
@@ -96,7 +102,14 @@ class Paypad {
     //this.payAmountTextElement.innerText = parseFloat(number).toLocaleString(this.locale, {style:"currency", currency:"EUR"});
 
     async sendPayRequest(amount) {
-            
+
+        var mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;        
+        var network_type = document.getElementById('network_type').value ;   
+        var testnet_wallet_address = document.getElementById('testnet_wallet_address').value ; 
+        var token_policyID = selectedToken.getAttribute('data-policyID');
+        console.log(token_policyID);
+        var token_name = selectedToken.innerText;   
+        
         var wallet_address = ""
         //var network_type = ""
         
@@ -126,9 +139,11 @@ class Paypad {
             "network_type": network_type,
             "transaction_id": transaction_id,
             "wallet_address": wallet_address,
+            "token_policyID": token_policyID,
+            "token_name": token_name,
             "amount": amount
         }
-        
+                
         // Submit the payment request form
         console.log(JSON.stringify(data))     
         console.log(request_type)      
@@ -143,34 +158,37 @@ class Paypad {
         
         validateMessage.style.visibility = "hidden";
     }
+    
+    changeToken(token) {
+        console.log(token);
+    }
 }
 
-const payAmountTextElement = document.querySelector('[data-input]');
 
 const paymentPage = document.getElementById('payment-page') ;
-const configPage = document.getElementById('config-page');
-configPage.style.display = 'none';
-//console.log('config viz ' + configPage.style.visibility);
-
-const cancelConfigButton = document.getElementById('cancel-config');
-const saveConfigButton = document.getElementById('save-config');
 const cancelTransactionButton = document.getElementById('cancel-transaction');
+const payAmountTextElement = document.querySelector('[data-input]');
 const validateTransactionButton = document.getElementById('validate-transaction');
-const validateMessage = document.getElementById('validate-message');
-
-var form = document.getElementById("config-form");
-var payment_form = document.getElementById("payment-form");
 var payment_data = document.getElementsByName("payment-data")[0];
 var request_type = document.getElementsByName("request-type")[0];
 
-const network_type = document.getElementById('network_type').value ;
-const mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;
-const testnet_wallet_address = document.getElementById('testnet_wallet_address').value ;
-const locale_setting = document.getElementById('locale_setting').value ;
-const pad_dot = document.getElementById('Dot')
+//var tokenButtons = document.getElementsByClassName("token");
+const tokenButtons = document.querySelectorAll('#token');
+console.log(tokenButtons);
 
+var selectedToken = document.getElementById("selectedToken");
+
+
+const configPage = document.getElementById('config-page');
+configPage.style.display = 'none';
+var form = document.getElementById("config-form");
+const cancelConfigButton = document.getElementById('cancel-config');
+const saveConfigButton = document.getElementById('save-config');
+
+const pad_dot = document.getElementById('Dot')
 const numberButtons = document.querySelectorAll('[data-action]');
-const paypad = new Paypad(payAmountTextElement, validateMessage, network_type, mainnet_wallet_address, testnet_wallet_address, locale_setting, payment_form, payment_data, request_type, pad_dot);
+
+const paypad = new Paypad(payAmountTextElement, payment_data, request_type, pad_dot);
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
@@ -222,6 +240,14 @@ numberButtons.forEach(button => {
   })
 })
 
+tokenButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    selectedToken.innerText = button.innerText;
+    
+    selectedToken.setAttribute('data-policyID', button.getAttribute('data-policyID'));  
+    })    
+})
+
 document.addEventListener('click', function (event) {
     if (cancelConfigButton.contains(event.target)) {
         console.log('cancel config');
@@ -251,6 +277,8 @@ document.addEventListener('click', function (event) {
         console.log(amount);
         paypad.sendPayRequest(amount);
     }   
+    
+    
 });
 
 document.addEventListener('keydown', function (event) {

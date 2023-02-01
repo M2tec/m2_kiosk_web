@@ -1,6 +1,7 @@
 { 
 "globals":{ "vat_in_metadata": "True",
-            "locale_setting": "en_US.UTF-8"  
+            "locale_setting": "en_US.UTF-8",
+            "interface-mode": "light"
 },
 
 "cardano": {
