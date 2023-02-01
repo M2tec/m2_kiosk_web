@@ -105,7 +105,9 @@ def m2_paypad_web_app():
     if request.method == 'POST':
         # print('POST request')
         data = request.form.to_dict()
+
         print(data)
+
 
         if data['request-type'] == 'sendPayRequest':
             print('Pay request')
@@ -135,9 +137,14 @@ def save_config_data():
     print('\n==== save_config_data() ======')
     if request.method == 'POST':
         print('save')
-        form_data = request.form.to_dict()
+        form_data = request.form.to_dict()        
         pprint(form_data)
-
+        
+        network_type = request.form.get('network_type')
+        print(network_type)
+        if network_type == None: 
+            form_data['network_type'] = 'testnet'
+        
         try:
             f = open(config_folder + config_file)
             config_data = json.load(f)

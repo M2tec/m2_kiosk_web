@@ -175,10 +175,24 @@ var request_type = document.getElementsByName("request-type")[0];
 
 //var tokenButtons = document.getElementsByClassName("token");
 const tokenButtons = document.querySelectorAll('#token');
-console.log(tokenButtons);
 
 var selectedToken = document.getElementById("selectedToken");
 
+var networkToggle = document.getElementById("network_type");
+
+console.log(networkToggle.getAttribute('data-network_type'));
+if (networkToggle.getAttribute('value') == 'mainnet') {
+    console.log('Hello mainnet');
+    networkToggle.checked = true;
+}
+
+if (networkToggle.getAttribute('value') == 'testnet') {
+    console.log('Hello testnet');
+    networkToggle.checked = false;
+}
+console.log(networkToggle);
+console.log(networkToggle.checked);
+console.log(networkToggle.value);
 
 const configPage = document.getElementById('config-page');
 configPage.style.display = 'block';
@@ -190,6 +204,23 @@ const pad_dot = document.getElementById('Dot')
 const numberButtons = document.querySelectorAll('[data-action]');
 
 const paypad = new Paypad(payAmountTextElement, payment_data, request_type, pad_dot);
+
+
+networkToggle.addEventListener('click', () => {
+    if (networkToggle.checked == false) {
+        console.log('Set to testnet');
+        networkToggle.setAttribute('value', 'testnet');        
+    }
+
+    if (networkToggle.checked == true) {
+        console.log('Set to mainnet');
+        networkToggle.setAttribute('value', 'mainnet');
+    }
+    console.log(networkToggle);
+    console.log(networkToggle.checked);
+    console.log(networkToggle.value);
+    console.log(" ")
+})
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
@@ -248,6 +279,9 @@ tokenButtons.forEach(button => {
     selectedToken.setAttribute('data-policyID', button.getAttribute('data-policyID'));  
     })    
 })
+
+
+
 
 document.addEventListener('click', function (event) {
     if (cancelConfigButton.contains(event.target)) {

@@ -180,7 +180,7 @@ button:hover {
 
 .config-field {
     display: flex;
-    align-items: bottom;
+    align-items: center;
 }
     
 .config-field input{
@@ -261,7 +261,7 @@ button:hover {
 }
 
 .toggle .labels::after {
-  content: attr(data-off);
+  content: attr(data-testnet);
   position: absolute;
   right: 10px;
   color: #4d4d4d;
@@ -270,7 +270,7 @@ button:hover {
 }
 
 .toggle .labels::before {
-  content: attr(data-on);
+  content: attr(data-mainnet);
   position: absolute;
   left: 8px;
   color: #ffffff;
