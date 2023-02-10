@@ -119,36 +119,20 @@ button:hover {
     outline: solid 1px var(--line-color);
 }
 
+.numbox {
+    display: flex;
+    justify-content: center;
+}
+
 .numpad {
     display: grid;
+    overflow: hidden;
     grid-template-columns: repeat(4,74px);
     grid-auto-rows: 74px;
     justify-content: center;
-    padding: 10px;  
-}
-
-.numpad .topleft {
-    border-top-left-radius: 5px;
-}
-
-.numpad .top {
-    border-top: 1px solid var(--line-color);
-}
-
-.numpad .left{
-    border-left: 1px solid var(--line-color);
-}
-
-.numpad .topright {
-    border-top-right-radius: 5px;
-}
-
-.numpad .bottomleft {
-    border-bottom-left-radius: 5px;
-}
-
-.numpad .bottomright {
-    border-bottom-right-radius: 5px;
+    border: solid 2px var(--line-color);
+    border-radius: 5px;
+    margin: 10px;  
 }
 
 .backspace {
@@ -156,12 +140,15 @@ button:hover {
 }
 
 .numpad button {
+    outline: none;
 	font-weight: bold;
 	border-radius: 0;
 	border-right: solid 1px var(--line-color);
 	border-bottom: solid 1px var(--line-color);
 }
 
+.numpad button:nth-last-child(-n+4){ border-bottom: 0; }
+.numpad button:nth-child(4n) { border-right: 0; }
 
 .config-button {
 	position: fixed;
@@ -173,7 +160,7 @@ button:hover {
 
 .config-grid {
     display: grid;
-    grid-template-columns: 250px 100%;
+    grid-template-columns: 250px auto;
     grid-gap: 8px;
     padding: 20px;
 }
@@ -185,7 +172,7 @@ button:hover {
     
 .config-field input{
     border: none;
-    width: 50%;
+    width: 100%;
     background: var(--payment-line-background);
 	color: var(--currency-background-color);
 	border-radius: 3px;
@@ -193,96 +180,44 @@ button:hover {
     padding:5px;
 }
 
-
 .darkmode {
     line-height: 0.3px;
 }
 
-.toggle {
-  --width: 175px;
-  --height: 33px;
-  --toggle-width: 80px;
-  
-
-  position: relative;
-  display: inline-block;
-  width: var(--width);
-  height: var(--height);
-  box-shadow: inset 3px rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-  cursor: pointer;
+nav{
+    width: fit-content;
+    border: solid 1px var(--line-color);
+    border-radius: 3px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+}
+nav input{ display: none; }
+nav label{
+    display: flex;
+    background: var(--button-background-color);
+    padding: 8px 10px;
+    font-family: sans-serif;
+    border-right: 1px solid #ccc;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+nav label:last-of-type{ border-right: 0; }
+nav label:hover{
+    background: var(--background-color);
 }
 
-.toggle input {
-  display: none;
+nav input:checked + label{
+    color: white;
+    background: var(--currency-background-color);
 }
 
-.toggle .slider {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 3px;
-  background-color: #ccc;
-  transition: all 0.4s ease-in-out;
+nav img {
+    height: 30px;
 }
 
-.toggle .slider::before {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: var(--toggle-width); /* calc(var(--height) - 4px); */
-  height: calc(var(--height) - 4px);
-  border-radius: 2px;
-  background-color: var(--button-background-color);
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s ease-in-out;
-}
 
-.toggle input:checked+.slider {
-  background-color: #2196F3;
-}
 
-.toggle input:checked+.slider::before {
-  transform: translateX(calc(var(--width) - var(--toggle-width) - 4px));
-}
 
-.toggle .labels {
-  position: absolute;
-  top: 8px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  font-size: 18px;
-  font-family: sans-serif;
-  transition: all 0.4s ease-in-out;
-}
-
-.toggle .labels::after {
-  content: attr(data-testnet);
-  position: absolute;
-  right: 10px;
-  color: #4d4d4d;
-  opacity: 1;
-  transition: all 0.4s ease-in-out;
-}
-
-.toggle .labels::before {
-  content: attr(data-mainnet);
-  position: absolute;
-  left: 8px;
-  color: #ffffff;
-  opacity: 0;
-  transition: all 0.4s ease-in-out;
-}
-
-.toggle input:checked~.labels::after {
-  opacity: 0;
-}
-
-.toggle input:checked~.labels::before {
-  opacity: 1;
-}
 

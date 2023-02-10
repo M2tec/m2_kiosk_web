@@ -1,110 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Payment - BETA TEST</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/normalize.css') }}"> 
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/pos.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <script src="{{ url_for('static', filename= 'js/script.js') }}" defer></script>
-    <script src="{{ url_for('static', filename= 'js/darkmode.js') }}" defer></script>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %} 
+
 <div id="payment-page">
-  
+    {% for network in config_data['cardano']['networks'] %}    
+    {% if network.name == config_data['cardano']['network_type'] %}
     <form id="payment-form" class="topbar" method="post" action="/">
         <button id="cancel-transaction">Cancel</button>
 
         <div class="paymentbox">
             <div class="dropdown">
-                <div id="selectedToken" data-policyID="ada" class="dropbtn">ADA</div> <!--<img class="currency" src="{{ url_for('static', filename= 'img/ada.svg') }}" alt="">-->
-                <div class="dropdown-content">
-                    <button type="button" data-policyID="ada" id="token">ADA</button>
-                    <button type="button" data-policyID="20cd68533b47565f3c61efb39c30fdace9963bfa4c0060b613448e3c" id="token">PROXIE</button>
-                    <button type="button" data-policyID="f66d78b4a3cb3d37afa0ec36461e51ecbde00f26c8f0a68f94b69880" id="token">iUSD</button>
-                    <button type="button" data-policyID="2f7e0f588efe4e2836c829c50619a498ddf5521255bf5e1e9f9f5a13" id="token">FakeUSD</button>                    
+                    
+                 {% for token in network.tokens %}  
+                 {% if token.name == network.selected_token %}   
+                     <div id="selectedToken" data-policyID={{ token.policyID }}" class="dropbtn">{{ token.name }}</div>   
+                 {% endif %}
+                 {% endfor %}               
+                 
+                 <div class="dropdown-content">         
+
+                 {% for token in network.tokens %}  
+                 {% if token.name != network.selected_token %}   
+                       <button type="button" data-policyID="{{ token.policyID }}" id="token">{{ token.name }}</button>   
+                 {% endif %}
+                 {% endfor %}  
+
                 </div>            
-            </div>
-            
+                </div>
+                
             <div class="paymentline" data-input="">0.00</div>
-            <input type="hidden" value="VALUE1" name="request-type">  
-            <input type="hidden" value="VALUE1" name="payment-data">            
+            <input type="hidden" value="VALUE1" name="request-type"/>  
+            <input type="hidden" value="VALUE1" name="payment-data"/>            
         </div>
   
         <button id="validate-transaction">Validate</button>        
     </form>
-
-    <div class="numpad">
-        <button class="topleft top left" data-action="1">1</button>
-        <button class="top" data-action="2">2</button>
-        <button class="top" data-action="3">3</button>
-        <button class="topright top" data-action="+10">+10</button>
-
-        <button class="left" data-action="4">4</button>
-        <button data-action="5">5</button>
-        <button data-action="6">6</button>
-        <button data-action="+20">+20</button>
-
-        <button class="left" data-action="7">7</button>
-        <button data-action="8">8</button>
-        <button data-action="9">9</button>
-        <button data-action="+50">+50</button>
-
-        <button class="bottomleft left" data-action="-"></button>
-        <button data-action="0">0</button>
-        <button id="Dot" data-action="dot">.</button>
-        <button class="bottomright" data-action="Backspace">
-            <img class="backspace" src="static/img/backspace.png" alt="Backspace">
-        </button>
-    </div>
+    {% endif %}
+    {% endfor %}
     
+    {% include "_numpad.html" %}
 </div>
 
-<div id="config-page">
-    <form id="config-form" action="/save-config-data" method="POST">
-    <div class="topbar">
-        <button id="cancel-config">Cancel</button>
-        <div class="topbar-header">Configuration</div>
-        <button id="save-config">Save</button>
-    </div>
+{% include "_config.html" %}
+
+{% endblock content %}
 
 
-    <div class="config-grid">
-        <div class="config-field">Network type</div>
-        <label class="toggle">
-            <input type="checkbox" id="network_type" name="network_type" value={{ config_data['cardano']['network_type'] }}>
-            <span class="slider"></span>
-            <span class="labels" data-mainnet="Mainnet" data-testnet="Testnet"></span>
-        </label>
-        <!--<div class="config-field"><input type="text" id="network_type" name="network_type" value={{ config_data['cardano']['network_type'] }}></div>-->
 
-        <div class="config-field">Mainnet wallet address</div>
-        <div class="config-field"><input type="text" id="mainnet_wallet_address" name="mainnet_wallet_address" value={{ config_data['cardano']['mainnet_wallet_address'] }}></div>
-        
-        <div class="config-field">Testnet wallet address</div>
-        <div class="config-field"><input type="text" id="testnet_wallet_address" name="testnet_wallet_address" value={{ config_data['cardano']['testnet_wallet_address'] }}></div>
 
-        <div class="config-field">Decimal seperator</div>
-        <div class="config-field"><input type="text" id="locale_setting" name="locale_setting" value={{ config_data['globals']['locale_setting'] }}></div>  
-      
-    </div>
-    </form>
-</div>
+
     
-<div class="config-button">
-<button data-action="Config">Configuration</button>
-<button class="darkmode" id="dark-theme-button">
-        
-        <svg width="20px" height="20px" viewBox="0 0 24 24" class="sundae-night"><path d="M2.71 15.85v2.68c0 1.52 1.24 2.76 2.76 2.76h2.68l1.9 1.9a2.755 2.755 0 003.9 0l1.9-1.9h2.68c1.52 0 2.76-1.24 2.76-2.76v-2.68l1.9-1.9a2.755 2.755 0 000-3.9l-1.9-1.9V5.47c0-1.52-1.24-2.76-2.76-2.76h-2.68l-1.9-1.9c-1.04-1.04-2.86-1.04-3.9 0l-1.9 1.9H5.47c-1.52 0-2.76 1.24-2.76 2.76v2.68l-1.9 1.9a2.755 2.755 0 000 3.9zM12 6c.8 0 1.57.15 2.28.43.29.12.47.4.47.7 0 .31-.19.59-.48.7C12.69 8.45 11 9.87 11 12s1.69 3.55 3.27 4.17c.29.11.48.39.48.7 0 .3-.18.58-.47.7-.71.28-1.48.43-2.28.43-3.48 0-6-2.52-6-6s2.52-6 6-6z"></path></svg>   
-             
-        </button>
-        
-<button class="darkmode" id="light-theme-button" style="display: none;">
-        
-        <svg width="20px" height="20px" viewBox="0 0 24 23.97"><g data-name="Group 1543"><path d="M2.71 15.82v2.68a2.766 2.766 0 002.76 2.76h2.68l1.9 1.9a2.752 2.752 0 003.9 0l1.9-1.9h2.68a2.766 2.766 0 002.76-2.76v-2.68l1.9-1.9a2.752 2.752 0 000-3.9l-1.9-1.9V5.44a2.766 2.766 0 00-2.76-2.76h-2.68l-1.9-1.9a2.827 2.827 0 00-3.9 0l-1.9 1.9H5.47a2.766 2.766 0 00-2.76 2.76v2.68l-1.9 1.9a2.752 2.752 0 000 3.9z" fill="#eefafd"></path><g fill="#2b2d3b"><path data-name="Path 579" d="M16.386 11.499a4.455 4.455 0 11-4.455-4.455 4.455 4.455 0 014.455 4.455zm0 0"></path><path data-name="Path 580" d="M11.337 4.965v1.016a.594.594 0 101.188 0V4.965a.594.594 0 10-1.188 0zm0 0"></path><path data-name="Path 581" d="M6.555 7.777a.594.594 0 10-.536 1.061l.861.435a.594.594 0 00.536-1.061zm0 0"></path><path data-name="Path 582" d="M6.877 13.729l-.861.435a.597.597 0 00.54 1.065l.861-.435a.597.597 0 00-.54-1.065zm0 0"></path><path data-name="Path 583" d="M11.931 16.423a.594.594 0 00-.594.594v1.016a.594.594 0 001.188 0v-1.016a.594.594 0 00-.594-.594zm0 0"></path><path data-name="Path 584" d="M17.842 14.163l-.861-.435a.594.594 0 10-.536 1.06l.861.436a.594.594 0 00.536-1.06zm0 0"></path><path data-name="Path 585" d="M17.303 7.774l-.861.435a.594.594 0 00.536 1.061l.861-.435a.594.594 0 00-.536-1.061zm0 0"></path></g></g></svg>
-        
-</button>
-</div>
-
-</body>
-</html>
+    

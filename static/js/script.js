@@ -1,7 +1,7 @@
 class Paypad {
     constructor(payAmountTextElement, payment_data, request_type, pad_dot) {         
         console.log("Constructor")
-        var locale_setting = document.getElementById('locale_setting').value ;  
+        var locale_setting = document.getElementById('locale_setting').dataset.locale_setting ;  
         this.locale = locale_setting.split(".")[0].replace('_','-');
         console.log(this.locale)
 
@@ -104,7 +104,7 @@ class Paypad {
     async sendPayRequest(amount) {
 
         var mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;        
-        var network_type = document.getElementById('network_type').value ;   
+        var network_type = document.getElementById('network_type').dataset.network_type ;   
         var testnet_wallet_address = document.getElementById('testnet_wallet_address').value ; 
         var token_policyID = selectedToken.getAttribute('data-policyID');
         console.log(token_policyID);
@@ -166,7 +166,7 @@ class Paypad {
 
 
 const paymentPage = document.getElementById('payment-page') ;
-paymentPage.style.display = 'none';
+paymentPage.style.display = 'block';
 const cancelTransactionButton = document.getElementById('cancel-transaction');
 const payAmountTextElement = document.querySelector('[data-input]');
 const validateTransactionButton = document.getElementById('validate-transaction');
@@ -178,24 +178,22 @@ const tokenButtons = document.querySelectorAll('#token');
 
 var selectedToken = document.getElementById("selectedToken");
 
-var networkToggle = document.getElementById("network_type");
+var networkSelection = document.getElementById("network_type");
+var network_type = networkSelection.dataset.network_type;
+console.log(network_type)
 
-console.log(networkToggle.getAttribute('data-network_type'));
-if (networkToggle.getAttribute('value') == 'mainnet') {
-    console.log('Hello mainnet');
-    networkToggle.checked = true;
+if (network_type == 'mainnet') {
+    radioButton = document.getElementById("network_mainnet");
+    radioButton.checked = true; 
 }
 
-if (networkToggle.getAttribute('value') == 'testnet') {
-    console.log('Hello testnet');
-    networkToggle.checked = false;
+if (network_type == 'testnet') {
+    radioButton = document.getElementById("network_testnet");
+    radioButton.checked = true;
 }
-console.log(networkToggle);
-console.log(networkToggle.checked);
-console.log(networkToggle.value);
 
 const configPage = document.getElementById('config-page');
-configPage.style.display = 'block';
+configPage.style.display = 'none';
 var form = document.getElementById("config-form");
 const cancelConfigButton = document.getElementById('cancel-config');
 const saveConfigButton = document.getElementById('save-config');
@@ -205,22 +203,25 @@ const numberButtons = document.querySelectorAll('[data-action]');
 
 const paypad = new Paypad(payAmountTextElement, payment_data, request_type, pad_dot);
 
+var locale_selector = document.getElementById("locale_setting");
+var locale_setting = document.getElementById('locale_setting').dataset.locale_setting ;  
+if (locale_setting == 'en_US.UTF-8') {
+    radioButton = document.getElementById("en_US.UTF-8");
+    radioButton.checked = true; 
+}
 
-networkToggle.addEventListener('click', () => {
-    if (networkToggle.checked == false) {
-        console.log('Set to testnet');
-        networkToggle.setAttribute('value', 'testnet');        
-    }
+if (locale_setting == 'nl_NL.UTF-8') {
+    radioButton = document.getElementById("nl_NL.UTF-8");
+    radioButton.checked = true;
+}
 
-    if (networkToggle.checked == true) {
-        console.log('Set to mainnet');
-        networkToggle.setAttribute('value', 'mainnet');
-    }
-    console.log(networkToggle);
-    console.log(networkToggle.checked);
-    console.log(networkToggle.value);
-    console.log(" ")
-})
+locale_selector.addEventListener('click', () => {
+
+    console.log(" ")    
+    console.log("US: " + document.getElementById('en_US.UTF-8').checked)
+    console.log("EU: " + document.getElementById('nl_NL.UTF-8').checked)    
+    
+})   
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
