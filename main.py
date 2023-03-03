@@ -32,69 +32,14 @@ CORS(app)
 
 logging.getLogger('flask_cors').level = logging.DEBUG
 
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))  # This is your Project Root
-HOME_DIR = os.path.expanduser('~')
 app.debug = True
 
-
-# print(HOME_DIR)
-
-if platform.machine() == 'x86_64':
-    config_folder = HOME_DIR + "/.config/m2-kiosk-web/"
-else:
-    config_folder = "/var/www/m2-kiosk-web/.config/"
-
-config_file = "config.json"
-
-
-def get_config():
-    try:
-        f = open(config_folder + config_file)
-        config_data = json.load(f)
-        f.close()
-        create_config = False
-    except FileNotFoundError:
-        print("Config file not found: " + config_folder + config_file)
-        create_config = True
-
-    if create_config:
-        try:
-            print("Creating new config file")
-            print(config_folder)
-            os.makedirs(config_folder, exist_ok=True)
-        except OSError as error:
-            print(error)
-
-        try:
-            print("Reading config file")
-            f = open("config_template.json", "r")
-            template_data = f.read()
-            f.close()
-            print(template_data)
-        except FileNotFoundError:
-            print("Template file not found")
-
-        try:
-            f = open(config_folder + config_file, "w")
-            f.write(template_data)
-            f.close()
-        except OSError as e:
-            print(e)
-
-        try:
-            f = open(config_folder + config_file)
-            config_data = json.load(f)
-            f.close()
-        except OSError as e:
-            print(e)
-    return config_data
-
-
-def send_kiosk_request(request_type, data):
+def send_kiosk_request(request_type, data="none"):
     # print(data)
     url = "http://localhost:9090" + request_type
-    r = requests.post(url, json=data)
-    print(r.status_code)
+    response = requests.post(url, json=data)
+    print(response.status_code)
+    return response
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -127,8 +72,14 @@ def m2_paypad_web_app():
             send_kiosk_request('/payment-status', json_data)
             pass
 
-    config_data = get_config()
+    response = send_kiosk_request('/load-configuration')
+    config_data = response.json()
+    print("----Load configuration----")
     print(config_data)
+    print("----Load configuration----")
+     
+#    config_data = get_config()
+#    print(config_data)
     return render_template('index.html', config_data=config_data)
 
 
@@ -145,12 +96,9 @@ def save_config_data():
         if network_type == None: 
             form_data['network_type'] = 'testnet'
         
-        try:
-            f = open(config_folder + config_file)
-            config_data = json.load(f)
-            f.close()
-        except OSError as e:
-            print(e)
+        response = send_kiosk_request('/load-configuration')
+        config_data = response.json()
+
 
         config_data['cardano']['network_type'] = form_data['network_type']
         config_data['cardano']['testnet_wallet_address'] = form_data['testnet_wallet_address']
@@ -160,13 +108,11 @@ def save_config_data():
         config_data['cardano']['networks'][1]['selected_token'] = form_data['mainnet_selected_token']
 
         config_data['globals']['locale_setting'] = form_data['locale_setting']
-        
 
-        with open(config_folder + config_file, 'w') as f:
-            json.dump(config_data, f, ensure_ascii=False, indent=4)
+        send_kiosk_request('/save-configuration', config_data)
 
-    config_data = get_config()
-    print(config_data)
+    #config_data = get_config()
+    #print(config_data)
     return render_template('index.html', config_data=config_data)
 
 
