@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 #
 # This file is part of the m2-kiosk-web distribution (https://github.com/M2tec/m2_kiosk_web).

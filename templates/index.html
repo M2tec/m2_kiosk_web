@@ -13,7 +13,7 @@
                     
                  {% for token in network.tokens %}  
                  {% if token.name == network.selected_token %}   
-                     <div id="selectedToken" data-policyID={{ token.policyID }}" class="dropbtn">{{ token.name }}</div>   
+                     <div id="selectedToken" data-policyID={{ token.policyID }} class="dropbtn">{{ token.name }}</div>   
                  {% endif %}
                  {% endfor %}               
                  
