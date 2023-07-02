@@ -36,6 +36,8 @@ app.debug = True
 
 def send_kiosk_request(request_type, data="none"):
     # print(data)
+    print('\n======= Send kiosk request ====== ' + request_type + ' =====')
+
     url = "http://localhost:9090" + request_type
     response = requests.post(url, json=data)
     print(response.status_code)
