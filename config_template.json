@@ -5,7 +5,7 @@
         "interface_mode": "dark"
     },
     "cardano": {
-        "network_type": "mainnet",
+        "network_type": "testnet",
         "mainnet_wallet_address": "",
         "testnet_wallet_address": "",
         "payment_type": "gamechanger",

@@ -10,8 +10,9 @@
 
         <div class="paymentbox">
             <div class="dropdown">
-                    
+                
                  {% for token in network.tokens %}  
+                 
                  {% if token.name == network.selected_token %}   
                      <div id="selectedToken" data-policyID={{ token.policyID }} class="dropbtn">{{ token.name }}</div>   
                  {% endif %}
@@ -19,10 +20,8 @@
                  
                  <div class="dropdown-content">         
 
-                 {% for token in network.tokens %}  
-                 {% if token.name != network.selected_token %}   
+                 {% for token in network.tokens %} 
                        <button type="button" data-policyID="{{ token.policyID }}" id="token">{{ token.name }}</button>   
-                 {% endif %}
                  {% endfor %}  
 
                 </div>            

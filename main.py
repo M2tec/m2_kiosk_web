@@ -78,7 +78,7 @@ def m2_paypad_web_app():
     config_data = response.json()
     print("----Load configuration----")
     print(config_data)
-    print("----Load configuration----")
+    print("/n/n")
      
 #    config_data = get_config()
 #    print(config_data)
