@@ -104,10 +104,10 @@ def save_config_data():
 
         config_data['cardano']['network_type'] = form_data['network_type']
         config_data['cardano']['testnet_wallet_address'] = form_data['testnet_wallet_address']
-        config_data['cardano']['networks'][0]['selected_token'] = form_data['testnet_selected_token']       
-        
+        config_data['cardano']['networks'][0]['selected_token'] = form_data['preprod_selected_token']       
+        config_data['cardano']['networks'][1]['selected_token'] = form_data['beta_selected_token']    
         config_data['cardano']['mainnet_wallet_address'] = form_data['mainnet_wallet_address']
-        config_data['cardano']['networks'][1]['selected_token'] = form_data['mainnet_selected_token']
+        config_data['cardano']['networks'][2]['selected_token'] = form_data['mainnet_selected_token']
 
         config_data['globals']['locale_setting'] = form_data['locale_setting']
 

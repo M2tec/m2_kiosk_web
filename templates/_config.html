@@ -24,13 +24,16 @@
           <div class="config-field"><input type="text" id="testnet_wallet_address" name="testnet_wallet_address" value="{{ config_data['cardano']['testnet_wallet_address'] }}" /></div>
 
           <div class="config-field">Default token testnet</div>
-          <div class="config-field"><input type="text" id="testnet_selected_token" name="testnet_selected_token" value="{{ config_data['cardano']['networks'][0]['selected_token'] }}" /></div> 
+          <div class="config-field"><input type="text" id="preprod_selected_token" name="preprod_selected_token" value="{{ config_data['cardano']['networks'][0]['selected_token'] }}" /></div> 
+
+          <div class="config-field">Default token betanet</div>
+          <div class="config-field"><input type="text" id="beta_selected_token" name="beta_selected_token" value="{{ config_data['cardano']['networks'][1]['selected_token'] }}" /></div> 
 
           <div class="config-field">Mainnet wallet address</div>
           <div class="config-field"><input type="text" id="mainnet_wallet_address" name="mainnet_wallet_address" value="{{ config_data['cardano']['mainnet_wallet_address'] }}" /></div>
           
           <div class="config-field">Default token mainnet</div>
-          <div class="config-field"><input type="text" id="mainnet_selected_token" name="mainnet_selected_token" value="{{ config_data['cardano']['networks'][1]['selected_token'] }}" /></div>          
+          <div class="config-field"><input type="text" id="mainnet_selected_token" name="mainnet_selected_token" value="{{ config_data['cardano']['networks'][2]['selected_token'] }}" /></div>          
           <div class="config-field">Language</div>
           
           <nav id="locale_setting" data-locale_setting="{{ config_data['globals']['locale_setting'] }}">
