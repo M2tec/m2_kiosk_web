@@ -5,14 +5,28 @@
         "interface_mode": "dark"
     },
     "cardano": {
-        "network_type": "testnet",
+        "network_type": "preprod",
         "mainnet_wallet_address": "",
         "testnet_wallet_address": "",
         "payment_type": "gamechanger",
         "payment_validator": "koios",
         "networks": [
             {
-                "name": "testnet",
+                "name": "preprod",
+                "selected_token": "tADA",
+                "tokens": [
+                    {
+                        "name": "tADA",
+                        "policyID": "tada"
+                    },
+                    {
+                        "name": "FakeUSD",
+                        "policyID": "2f7e0f588efe4e2836c829c50619a498ddf5521255bf5e1e9f9f5a13"
+                    }
+                ]
+            },
+            {
+                "name": "beta",
                 "selected_token": "tADA",
                 "tokens": [
                     {

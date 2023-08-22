@@ -257,10 +257,16 @@ if (network_type == 'mainnet') {
     radioButton.checked = true; 
 }
 
-if (network_type == 'testnet') {
-    radioButton = document.getElementById("network_testnet");
+if (network_type == 'preprod') {
+    radioButton = document.getElementById("network_preprod");
     radioButton.checked = true;
 }
+
+if (network_type == 'beta') {
+    radioButton = document.getElementById("network_beta");
+    radioButton.checked = true;
+}
+
 
 const configPage = document.getElementById('config-page');
 configPage.style.display = 'none';
