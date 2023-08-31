@@ -1,47 +1,16 @@
 {
     "globals": {
         "vat_in_metadata": "True",
-        "locale_setting": "nl_NL.UTF-8",
-        "interface_mode": "dark"
+        "locale_setting": "en_US.UTF-8"
     },
     "cardano": {
-        "network_type": "preprod",
-        "mainnet_wallet_address": "",
-        "testnet_wallet_address": "",
+        "network_type": "Beta-brotli",
         "payment_type": "gamechanger",
         "payment_validator": "koios",
-        "networks": [
-            {
-                "name": "preprod",
-                "selected_token": "tADA",
-                "tokens": [
-                    {
-                        "name": "tADA",
-                        "policyID": "tada"
-                    },
-                    {
-                        "name": "FakeUSD",
-                        "policyID": "2f7e0f588efe4e2836c829c50619a498ddf5521255bf5e1e9f9f5a13"
-                    }
-                ]
-            },
-            {
-                "name": "beta",
-                "selected_token": "tADA",
-                "tokens": [
-                    {
-                        "name": "tADA",
-                        "policyID": "tada"
-                    },
-                    {
-                        "name": "FakeUSD",
-                        "policyID": "2f7e0f588efe4e2836c829c50619a498ddf5521255bf5e1e9f9f5a13"
-                    }
-                ]
-            },
-            {
-                "name": "mainnet",
-                "selected_token": "PROXIE",
+        "networks": {
+            "Mainnet": {
+                "wallet_address": "",
+                "selected_token": "ADA",
                 "tokens": [
                     {
                         "name": "ADA",
@@ -60,7 +29,63 @@
                         "policyID": "66d78b4a3cb3d37afa0ec36461e51ecbde00f26c8f0a68f94b69880"
                     }
                 ]
+            },
+            "Preprod": {
+                "wallet_address": "",
+                "selected_token": "tADA",
+                "tokens": [
+                    {
+                        "name": "tADA",
+                        "policyID": "tada"
+                    },
+                    {
+                        "name": "FakeUSD",
+                        "policyID": "2f7e0f588efe4e2836c829c50619a498ddf5521255bf5e1e9f9f5a13"
+                    }
+                ]
+            },
+            "Beta": {
+                "wallet_address": "",
+                "selected_token": "tADA",
+                "tokens": [
+                    {
+                        "name": "tADA",
+                        "policyID": "tada"
+                    },
+                    {
+                        "name": "FakeUSD",
+                        "policyID": "2f7e0f588efe4e2836c829c50619a498ddf5521255bf5e1e9f9f5a13"
+                    }
+                ]
+            },
+            "Beta-gcfs": {
+                "wallet_address": "",
+                "selected_token": "tADA",
+                "tokens": [
+                    {
+                        "name": "tADA",
+                        "policyID": "tada"
+                    },
+                    {
+                        "name": "FakeUSD",
+                        "policyID": "2f7e0f588efe4e2836c829c50619a498ddf5521255bf5e1e9f9f5a13"
+                    }
+                ]
+            },
+            "Beta-brotli": {
+                "wallet_address": "",
+                "selected_token": "tADA",
+                "tokens": [
+                    {
+                        "name": "tADA",
+                        "policyID": "tada"
+                    },
+                    {
+                        "name": "FakeUSD",
+                        "policyID": "2f7e0f588efe4e2836c829c50619a498ddf5521255bf5e1e9f9f5a13"
+                    }
+                ]
             }
-        ]
+        }
     }
 }
