@@ -172,25 +172,15 @@ class Paypad {
 
     async sendPayRequest(amount) {
 
-        var mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;        
+        //var mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;        
         var network_type = document.getElementById('network_type').dataset.network_type ;   
-        var testnet_wallet_address = document.getElementById('testnet_wallet_address').value ; 
+        //var testnet_wallet_address = document.getElementById('testnet_wallet_address').value ; 
         var token_policyID = selectedToken.getAttribute('data-policyID');
         console.log(token_policyID);
         var token_name = selectedToken.innerText;   
         
-        var wallet_address = ""
-        //var network_type = ""
-        
-        //console.log('mainnet_active: ' + mainnet_active)
-        
-        if (network_type == 'mainnet') {
-        //    console.log('mainnet')
-            wallet_address = mainnet_wallet_address;
-        } else {
-            wallet_address = testnet_wallet_address;
-        }
-        
+        var wallet_address = document.getElementById(network_type + "_wallet_address").value
+
         const now = new Date();
         //console.log("now:" + now)
         
@@ -203,13 +193,12 @@ class Paypad {
         
         var transaction_id = year + month  + day + "-" + hours + minutes + "-" + randomID
         //console.log(transaction_id)
-                
+    
         const data = {
             "network_type": network_type,
             "transaction_id": transaction_id,
             "wallet_address": wallet_address,
             "token_policyID": token_policyID,
-            //"token_policyID": 'tada',  
             "token_name": token_name,
             "amount": amount
         }
@@ -246,28 +235,6 @@ var request_type = document.getElementsByName("request-type")[0];
 //var tokenButtons = document.getElementsByClassName("token");
 const tokenButtons = document.querySelectorAll('#token');
 
-var selectedToken = document.getElementById("selectedToken");
-
-var networkSelection = document.getElementById("network_type");
-var network_type = networkSelection.dataset.network_type;
-console.log(network_type)
-
-if (network_type == 'mainnet') {
-    radioButton = document.getElementById("network_mainnet");
-    radioButton.checked = true; 
-}
-
-if (network_type == 'preprod') {
-    radioButton = document.getElementById("network_preprod");
-    radioButton.checked = true;
-}
-
-if (network_type == 'beta') {
-    radioButton = document.getElementById("network_beta");
-    radioButton.checked = true;
-}
-
-
 const configPage = document.getElementById('config-page');
 configPage.style.display = 'none';
 var form = document.getElementById("config-form");
@@ -278,6 +245,31 @@ const pad_dot = document.getElementById('Dot')
 const numberButtons = document.querySelectorAll('[data-action]');
 
 const paypad = new Paypad(payAmountTextElement, payment_data, request_type, pad_dot);
+
+
+document.addEventListener('input',(e)=>{
+
+    if(e.target.getAttribute('name')=="network_type")
+        network_type = e.target.value
+
+        var networksRadioButtons = document.querySelectorAll("input[type='radio'][name=network_type]");
+        networksRadioButtons.forEach((network_Button) => { 
+        
+            var config_block = document.getElementById(network_Button.value)
+
+            if (network_Button.value == network_type) {
+                config_block.style.display = "grid"
+                console.log("block")
+            } else {
+                config_block.style.display = "none"
+                console.log("none")
+            }
+    }
+    );
+
+    })
+
+
 
 var locale_selector = document.getElementById("locale_setting");
 var locale_setting = document.getElementById('locale_setting').dataset.locale_setting ;  

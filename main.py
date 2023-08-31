@@ -55,7 +55,6 @@ def m2_paypad_web_app():
 
         print(data)
 
-
         if data['request-type'] == 'sendPayRequest':
             print('Pay request')
             json_data = json.loads(data['payment-data'])
@@ -96,18 +95,24 @@ def save_config_data():
         network_type = request.form.get('network_type')
         print(network_type)
         if network_type == None: 
-            form_data['network_type'] = 'testnet'
+            form_data['network_type'] = 'preprod'
         
         response = send_kiosk_request('/load-configuration')
         config_data = response.json()
 
 
         config_data['cardano']['network_type'] = form_data['network_type']
-        config_data['cardano']['testnet_wallet_address'] = form_data['testnet_wallet_address']
-        config_data['cardano']['networks'][0]['selected_token'] = form_data['preprod_selected_token']       
-        config_data['cardano']['networks'][1]['selected_token'] = form_data['beta_selected_token']    
-        config_data['cardano']['mainnet_wallet_address'] = form_data['mainnet_wallet_address']
-        config_data['cardano']['networks'][2]['selected_token'] = form_data['mainnet_selected_token']
+
+        print()
+        print(form_data)
+        print()
+
+        cardano_networks = list(config_data['cardano']['networks'].keys())
+        print(cardano_networks)
+
+        for network in cardano_networks:
+            config_data['cardano']['networks'][network]['selected_token']
+            config_data['cardano']['networks'][network]['wallet_address'] = form_data[network + '_wallet_address']
 
         config_data['globals']['locale_setting'] = form_data['locale_setting']
 

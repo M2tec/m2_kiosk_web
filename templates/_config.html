@@ -7,45 +7,55 @@
       </div>
 
 
-      <div class="config-grid">
-          <div class="config-field">Network type</div>
-          <nav id="network_type" data-network_type="{{ config_data['cardano']['network_type'] }}">
-              <input type="radio" id="network_mainnet" name="network_type" value="mainnet"/>
-              <label for="network_mainnet">Mainnet</label>
-              
-              <input type="radio" id="network_preprod" name="network_type" value="preprod"/>
-              <label for="network_preprod">Preprod</label>  
+        <div class="config-grid">
+        <div class="config-field">Network type</div>
+        <nav id="network_type" data-network_type="{{ config_data['cardano']['network_type'] }}">
+          {% for network in config_data['cardano']['networks'] %}   
 
-              <input type="radio" id="network_beta" name="network_type" value="beta"/>
-              <label for="network_beta">Beta</label>  
-          </nav>
-          <!--<div class="config-field"><input type="text" id="network_type" name="network_type" value={{ config_data['cardano']['network_type'] }}></div>-->
-          <div class="config-field">Testnet wallet address</div>
-          <div class="config-field"><input type="text" id="testnet_wallet_address" name="testnet_wallet_address" value="{{ config_data['cardano']['testnet_wallet_address'] }}" /></div>
+            {% if network == config_data['cardano']['network_type'] %}
+            <input type="radio" id="network_{{network}}" name="network_type" value="{{network}}" checked="checked" />
+            <label for="network_{{network}}">{{network}}</label> 
+            {% else %}
+            <input type="radio" id="network_{{network}}" name="network_type" value="{{network}}" />
+            <label for="network_{{network}}">{{network}}</label>  
+            {% endif %}
+            
+          {% endfor %}
+        </nav>     
+        </div>
 
-          <div class="config-field">Default token testnet</div>
-          <div class="config-field"><input type="text" id="preprod_selected_token" name="preprod_selected_token" value="{{ config_data['cardano']['networks'][0]['selected_token'] }}" /></div> 
+        {% for network, data in config_data['cardano']['networks'].items() %}  
+        {% if network == config_data['cardano']['network_type'] %}
+            <div class="config-grid" style="display: grid;" id="{{network}}">
+        {% else %}
+            <div class="config-grid" style="display: none;" id="{{network}}">
+        {% endif %}
 
-          <div class="config-field">Default token betanet</div>
-          <div class="config-field"><input type="text" id="beta_selected_token" name="beta_selected_token" value="{{ config_data['cardano']['networks'][1]['selected_token'] }}" /></div> 
+                <div class="config-field">Wallet address</div>
+                <div class="config-field">
+                    <input type="text" id="{{network}}_wallet_address" name="{{network}}_wallet_address" value="{{data['wallet_address']}}">
+                </div>
 
-          <div class="config-field">Mainnet wallet address</div>
-          <div class="config-field"><input type="text" id="mainnet_wallet_address" name="mainnet_wallet_address" value="{{ config_data['cardano']['mainnet_wallet_address'] }}" /></div>
-          
-          <div class="config-field">Default token mainnet</div>
-          <div class="config-field"><input type="text" id="mainnet_selected_token" name="mainnet_selected_token" value="{{ config_data['cardano']['networks'][2]['selected_token'] }}" /></div>          
-          <div class="config-field">Language</div>
-          
-          <nav id="locale_setting" data-locale_setting="{{ config_data['globals']['locale_setting'] }}">
-              <input type="radio" id="en_US.UTF-8" name="locale_setting" value="en_US.UTF-8"/>
-              <label for="en_US.UTF-8"><img src="{{ url_for('static', filename='img/flags/us.svg') }}" alt="US"/></label>                   
-              <input type="radio" id="nl_NL.UTF-8" name="locale_setting" value="nl_NL.UTF-8"/>
-              <label for="nl_NL.UTF-8"><img src="{{ url_for('static', filename='img/flags/eu.svg') }}" alt="EU"/></label>
-          </nav>
-  
+                <div class="config-field">Default token</div>
+                <div class="config-field">
+                    <input type="text" id="{{network}}_selected_token" name="{{network}}_selected_token" value="{{ data['selected_token'] }}" />
+                </div>
+        </div>    
+                 
+        {% endfor %}
+
+        <div class="config-grid">
+        <div class="config-field">Language</div>  
+        <nav id="locale_setting" data-locale_setting="{{ config_data['globals']['locale_setting'] }}">
+            <input type="radio" id="en_US.UTF-8" name="locale_setting" value="en_US.UTF-8"/>
+            <label for="en_US.UTF-8"><img src="{{ url_for('static', filename='img/flags/us.svg') }}" alt="US"/></label>                   
+            <input type="radio" id="nl_NL.UTF-8" name="locale_setting" value="nl_NL.UTF-8"/>
+            <label for="nl_NL.UTF-8"><img src="{{ url_for('static', filename='img/flags/eu.svg') }}" alt="EU"/></label>
+        </nav>
+        </div>
           <!--<div class="config-field"><input type="text" id="locale_setting" name="locale_setting" value={{ config_data['globals']['locale_setting'] }}></div>  -->
         
-      </div>
+      
     
     
     </form>

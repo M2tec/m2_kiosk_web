@@ -3,24 +3,24 @@
 {% block content %} 
 
 <div id="payment-page">
-    {% for network in config_data['cardano']['networks'] %}    
-    {% if network.name == config_data['cardano']['network_type'] %}
+    {% for network, network_data in config_data['cardano']['networks'].items() %}    
+
+    {% if network == config_data['cardano']['network_type'] %}
     <form id="payment-form" class="topbar" method="post" action="/">
         <button id="cancel-transaction">Cancel</button>
 
         <div class="paymentbox">
             <div class="dropdown">
-                
-                 {% for token in network.tokens %}  
+                 {% for token in network_data.tokens %}  
                  
-                 {% if token.name == network.selected_token %}   
+                 {% if token.name == network_data.selected_token %}   
                      <div id="selectedToken" data-policyID={{ token.policyID }} class="dropbtn">{{ token.name }}</div>   
                  {% endif %}
                  {% endfor %}               
                  
                  <div class="dropdown-content">         
 
-                 {% for token in network.tokens %} 
+                 {% for token in network_data.tokens %} 
                        <button type="button" data-policyID="{{ token.policyID }}" id="token">{{ token.name }}</button>   
                  {% endfor %}  
 
