@@ -119,36 +119,20 @@ button:hover {
     outline: solid 1px var(--line-color);
 }
 
+.numbox {
+    display: flex;
+    justify-content: center;
+}
+
 .numpad {
     display: grid;
+    overflow: hidden;
     grid-template-columns: repeat(4,74px);
     grid-auto-rows: 74px;
     justify-content: center;
-    padding: 10px;  
-}
-
-.numpad .topleft {
-    border-top-left-radius: 5px;
-}
-
-.numpad .top {
-    border-top: 1px solid var(--line-color);
-}
-
-.numpad .left{
-    border-left: 1px solid var(--line-color);
-}
-
-.numpad .topright {
-    border-top-right-radius: 5px;
-}
-
-.numpad .bottomleft {
-    border-bottom-left-radius: 5px;
-}
-
-.numpad .bottomright {
-    border-bottom-right-radius: 5px;
+    border: solid 2px var(--line-color);
+    border-radius: 5px;
+    margin: 10px;  
 }
 
 .backspace {
@@ -156,12 +140,15 @@ button:hover {
 }
 
 .numpad button {
+    outline: none;
 	font-weight: bold;
 	border-radius: 0;
 	border-right: solid 1px var(--line-color);
 	border-bottom: solid 1px var(--line-color);
 }
 
+.numpad button:nth-last-child(-n+4){ border-bottom: 0; }
+.numpad button:nth-child(4n) { border-right: 0; }
 
 .config-button {
 	position: fixed;
@@ -173,14 +160,19 @@ button:hover {
 
 .config-grid {
     display: grid;
-    grid-template-columns: 250px 100%;
+    grid-template-columns: 250px auto;
     grid-gap: 8px;
-    padding: 20px;
+    padding: 8px;
 }
 
+.config-field {
+    display: flex;
+    align-items: center;
+}
+    
 .config-field input{
     border: none;
-    width: 50%;
+    width: 100%;
     background: var(--payment-line-background);
 	color: var(--currency-background-color);
 	border-radius: 3px;
@@ -188,9 +180,41 @@ button:hover {
     padding:5px;
 }
 
-
 .darkmode {
     line-height: 0.3px;
+}
+
+nav{
+    width: fit-content;
+    border: solid 1px var(--line-color);
+    border-radius: 3px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+}
+nav input{ display: none; }
+nav label{
+    display: flex;
+    background: var(--button-background-color);
+    padding: 8px 10px;
+    font-family: sans-serif;
+    border-right: 1px solid #ccc;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+nav label:last-of-type{ border-right: 0; }
+nav label:hover{
+    background: var(--background-color);
+}
+
+nav input:checked + label{
+    color: white;
+    background: var(--currency-background-color);
+}
+
+nav img {
+    height: 30px;
 }
 
 
