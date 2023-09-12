@@ -1,77 +1,10 @@
-function light_mode() {
-    document.documentElement.style.setProperty
-    ('--background-color', '#f0eeee')
-    document.documentElement.style.setProperty
-    ('--font-color', '#555')
-    document.documentElement.style.setProperty
-    ('--line-color', '#bfbfbf')
-    document.documentElement.style.setProperty
-    ('--button-background-color', '#e2e2e2')          
-    document.documentElement.style.setProperty
-    ('--currency-background-color', '#78baff')
-    document.documentElement.style.setProperty
-    ('--currency-font-color', 'white')
-    document.documentElement.style.setProperty
-    ('--payment-line-background', 'white')
-    document.documentElement.style.setProperty
-    ('--shadow-color', 'rgba(0,0,0,0.2)')      
-    
-    localStorage.setItem("theme", "light");
-
-    document.getElementById('light-theme-button').style.display = "none"; 
-    document.getElementById('dark-theme-button').style.display = "block";
-
-}
-
-function dark_mode() {
-
-    document.documentElement.style.setProperty
-    ('--background-color', '#0f0f0f')
-    document.documentElement.style.setProperty
-    ('--font-color', '#949742')
-    document.documentElement.style.setProperty
-    ('--line-color', '#44451f')
-    document.documentElement.style.setProperty
-    ('--button-background-color', '#030303')          
-    document.documentElement.style.setProperty
-    ('--currency-background-color', '#ded43a')
-    document.documentElement.style.setProperty
-    ('--currency-font-color', 'black')
-    document.documentElement.style.setProperty
-    ('--payment-line-background', '#555')    
-    document.documentElement.style.setProperty
-    ('--shadow-color', 'gold') 
-        
-    localStorage.setItem("theme", "dark");
-
-    document.getElementById('light-theme-button').style.display = "block";
-    document.getElementById('dark-theme-button').style.display = "none"; 
-}
-
-document.getElementById('light-theme-button').addEventListener('click', () => {
-    light_mode()
-})
-
-document.getElementById('dark-theme-button').addEventListener('click', () => {
-    dark_mode()
-}) 
-
-
 class Paypad {
     constructor(payAmountTextElement, payment_data, request_type, pad_dot) {         
         console.log("Constructor")
-        var locale_setting = document.getElementById('locale_setting').dataset.locale_setting ;  
-        this.locale = locale_setting.split(".")[0].replace('_','-');
-        console.log(this.locale)
+        // var locale_setting = document.getElementById('locale_setting').dataset.locale_setting ;  
+        // this.locale = locale_setting.split(".")[0].replace('_','-');
+        // console.log(this.locale)
 
-        // Set darkmode
-        const currentTheme = localStorage.getItem("theme");
-        console.log(currentTheme)
-        if (currentTheme == 'dark') {
-            dark_mode()
-        } else {
-            light_mode()
-        }
 
 
         this.payAmountTextElement = payAmountTextElement;
@@ -223,73 +156,18 @@ class Paypad {
     }
 }
 
-
-const paymentPage = document.getElementById('payment-page') ;
-paymentPage.style.display = 'block';
 const cancelTransactionButton = document.getElementById('cancel-transaction');
 const payAmountTextElement = document.querySelector('[data-input]');
 const validateTransactionButton = document.getElementById('validate-transaction');
 var payment_data = document.getElementsByName("payment-data")[0];
 var request_type = document.getElementsByName("request-type")[0];
 
-//var tokenButtons = document.getElementsByClassName("token");
 const tokenButtons = document.querySelectorAll('#token');
-
-const configPage = document.getElementById('config-page');
-configPage.style.display = 'none';
-var form = document.getElementById("config-form");
-const cancelConfigButton = document.getElementById('cancel-config');
-const saveConfigButton = document.getElementById('save-config');
 
 const pad_dot = document.getElementById('Dot')
 const numberButtons = document.querySelectorAll('[data-action]');
 
 const paypad = new Paypad(payAmountTextElement, payment_data, request_type, pad_dot);
-
-
-document.addEventListener('input',(e)=>{
-
-    if(e.target.getAttribute('name')=="network_type")
-        network_type = e.target.value
-
-        var networksRadioButtons = document.querySelectorAll("input[type='radio'][name=network_type]");
-        networksRadioButtons.forEach((network_Button) => { 
-        
-            var config_block = document.getElementById(network_Button.value)
-
-            if (network_Button.value == network_type) {
-                config_block.style.display = "grid"
-                console.log("block")
-            } else {
-                config_block.style.display = "none"
-                console.log("none")
-            }
-    }
-    );
-
-    })
-
-
-
-var locale_selector = document.getElementById("locale_setting");
-var locale_setting = document.getElementById('locale_setting').dataset.locale_setting ;  
-if (locale_setting == 'en_US.UTF-8') {
-    radioButton = document.getElementById("en_US.UTF-8");
-    radioButton.checked = true; 
-}
-
-if (locale_setting == 'nl_NL.UTF-8') {
-    radioButton = document.getElementById("nl_NL.UTF-8");
-    radioButton.checked = true;
-}
-
-locale_selector.addEventListener('click', () => {
-
-    console.log(" ")    
-    console.log("US: " + document.getElementById('en_US.UTF-8').checked)
-    console.log("EU: " + document.getElementById('nl_NL.UTF-8').checked)    
-    
-})   
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
@@ -323,23 +201,8 @@ numberButtons.forEach(button => {
         paypad.addNumber(50)
     }    
     
-    if (buttonAction === "Config") {
-        //console.log(paymentPage);
-        //console.log(paymentPage.style.visibility);
-        
-        if (paymentPage.style.display == "none") {
-            //console.log("show");
-            paymentPage.style.display = "block";
-            configPage.style.display = "none";
-            console.log(paymentPage);
-        } else {
-            //console.log("hide")
-            paymentPage.style.display = "none";
-            configPage.style.display = "block";
-        }       
-    }  
   })
-})
+});
 
 tokenButtons.forEach(button => {
   button.addEventListener('click', () => {
@@ -347,30 +210,10 @@ tokenButtons.forEach(button => {
     
     selectedToken.setAttribute('data-policyID', button.getAttribute('data-policyID'));  
     })    
-})
-
-
-
+});
 
 document.addEventListener('click', function (event) {
-    if (cancelConfigButton.contains(event.target)) {
-        console.log('cancel config');
-        if (paymentPage.style.display == "none") {
-            //console.log("show");
-            paymentPage.style.display = "block";
-            configPage.style.display = "none";
-            console.log(paymentPage);
-        } else {
-            //console.log("hide")
-            paymentPage.style.display = "none";
-            configPage.style.display = "block";
-        }    
-        }
         
-    if (saveConfigButton.contains(event.target)) {
-        console.log('save config');
-        form.submit();
-    }
     if (cancelTransactionButton.contains(event.target)) {
         console.log('cancel transaction');
         paypad.clear();
@@ -381,46 +224,43 @@ document.addEventListener('click', function (event) {
         console.log(amount);
         paypad.sendPayRequest(amount);
     }   
-    
-    
 });
 
 document.addEventListener('keydown', function (event) {
     console.log(event.key);
+       
+    if (event.key >= "0" && event.key <= "9") {
+        event.preventDefault();
+        paypad.appendNumber(event.key);       
+    }
     
-    if (configPage.style.display == "none"  ) {    
-        if (event.key >= "0" && event.key <= "9") {
+    if (event.key == '.') {
+        event.preventDefault();
+        paypad.appendNumber(event.key);
+        console.log('Dot');
+    }
+    
+    if (event.key == "Backspace") {
             event.preventDefault();
-            paypad.appendNumber(event.key);       
-        }
-      
-        if (event.key == '.') {
-            event.preventDefault();
-            paypad.appendNumber(event.key);
-            console.log('Dot');
-        }
-        
-        if (event.key == "Backspace") {
-                event.preventDefault();
-                paypad.delete()
-        }
-        
-        if (event.key == 'Delete') {
-            event.preventDefault();
-            paypad.clear();
-        }    
-
-        if (event.key == "Enter") {
-            event.preventDefault();
-            amount = paypad.payAmountTextElement.dataset.input
-            console.log(amount);
-            paypad.sendPayRequest(amount);
-            console.log('Send transaction');
-        }      
-
-        if (event.key === "Escape") {
-            event.preventDefault();
-            console.log('Cancel transaction');
-        } 
+            paypad.delete()
+    }
+    
+    if (event.key == 'Delete') {
+        event.preventDefault();
+        paypad.clear();
     }    
+
+    if (event.key == "Enter") {
+        event.preventDefault();
+        amount = paypad.payAmountTextElement.dataset.input
+        console.log(amount);
+        paypad.sendPayRequest(amount);
+        console.log('Send transaction');
+    }      
+
+    if (event.key === "Escape") {
+        event.preventDefault();
+        console.log('Cancel transaction');
+    } 
+      
 });

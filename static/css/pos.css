@@ -26,6 +26,7 @@ body {
 }
 
 button {
+    flex: 0 0 auto;
     padding: 8px;
 	background: var(--button-background-color);
     color: inherit;
@@ -178,6 +179,10 @@ button:hover {
 	border-radius: 3px;
     outline: solid 1px var(--line-color);
     padding:5px;
+}
+
+.divider {
+    padding: 15px;
 }
 
 .darkmode {

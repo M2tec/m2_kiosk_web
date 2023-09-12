@@ -38,10 +38,12 @@
     {% endfor %}
     
     {% include "_numpad.html" %}
+
+
+    {% include "_navigation.html" %}
 </div>
 
-{% include "_config.html" %}
-
+<script src="{{ url_for('static', filename= 'js/payment_script.js') }}" defer></script>
 {% endblock content %}
 
 

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %} 
+
+<div id="loyalty-page">
+    <form id="loyalty-form" action="/mint-token" method="POST">
+
+        <div class="topbar">
+            <button id="cancel-config">Cancel</button>
+            <div class="topbar-header">Loyalty</div>
+            <button id="mint-token" class="config-field">Generate mint link</button>
+        </div>
+
+        {% for network, data in config_data['cardano']['networks'].items() %}
+        {% if network == config_data['cardano']['network_type'] %}
+        <div class="config-grid" style="display: grid;" id="{{network}}">
+            {% else %}
+            <div class="config-grid" style="display: none;" id="{{network}}">
+                {% endif %}
+                <div class="config-field">Token name</div>
+                <div class="config-field">
+                    <input type="text" id="{{network}}_loyalty_token_name" name="{{network}}_loyalty_token_name"
+                        value="{{ data['loyalty_token']['name'] }}" />
+                </div>
+
+                <div class="config-field">Token amount</div>
+                <div class="config-field">
+                    <input type="text" id="{{network}}_loyalty_token_amount" name="{{network}}_loyalty_token_amount"
+                        value="{{ data['loyalty_token']['amount'] }}" />
+                </div>
+
+                <div class="config-field"></div>
+                <div class="config-field">
+                    <a id="{{network}}_loyalty_token_mint_url" name="{{network}}_loyalty_token_mint_url"
+                    target="_blank" href="{{ data['loyalty_token']['mint_url'] }}">Mint loyalty token</a>
+                </div>
+
+                <div class="config-field"></div>
+            </div>
+
+            {% endfor %}
+
+    </form>
+
+    <div class="divider"></div>
+
+    <form method="POST" action="/save-logo-data" enctype="multipart/form-data">
+        <div class="config-grid">
+            <div class="config-field"></div>
+            <div class="config-field"><b>Pin company logo to blockchain</b></div>
+
+            <div class="config-field">Token logo</div>
+            
+            <div class="file-field">
+                <input type="file" name="file" id="file">
+            </div>
+            
+            <input type="hidden" value="file-upload" name="request-type" />
+            <div class="config-field">Pinned image</div>
+            <div class="config-field">
+                <a href="https://{{ config_data['globals']['logo_ipfs_cid'] }}.ipfs.nftstorage.link">
+                    <img src="https://{{ config_data['globals']['logo_ipfs_cid'] }}.ipfs.nftstorage.link" /></a>
+                </div>
+            <div class="config-field"></div>
+            <button type="submit">Upload Logo</button>
+            
+            
+
+        </div>
+    </form>
+
+</div>
+
+{% include "_navigation.html" %}
+
+{% endblock content %}
