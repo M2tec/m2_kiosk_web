@@ -39,6 +39,20 @@
     
     {% include "_numpad.html" %}
 
+    <div id="settings" 
+        data-network_type="{{ config_data['cardano']['network_type'] }}" 
+        data-locale_setting="{{ config_data['globals']['locale_setting'] }}">
+    </div>
+    {% for network, network_data in config_data['cardano']['networks'].items() %}    
+        {% if network == config_data['cardano']['network_type'] %}
+            <div id="wallet_address" data-wallet_address={{ network_data["wallet_address"] }}></div>
+        {% endif %}
+    {% endfor %}
+
+
+
+        
+  
 
     {% include "_navigation.html" %}
 </div>

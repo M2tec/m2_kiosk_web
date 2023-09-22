@@ -1,11 +1,10 @@
 class Paypad {
     constructor(payAmountTextElement, payment_data, request_type, pad_dot) {         
         console.log("Constructor")
-        // var locale_setting = document.getElementById('locale_setting').dataset.locale_setting ;  
-        // this.locale = locale_setting.split(".")[0].replace('_','-');
-        // console.log(this.locale)
 
-
+        var locale_setting = document.getElementById('settings').dataset.locale_setting ;  
+        this.locale = locale_setting.split(".")[0].replace('_','-');
+        console.log(this.locale)
 
         this.payAmountTextElement = payAmountTextElement;
         this.payment_form = document.getElementById("payment-form");
@@ -70,7 +69,7 @@ class Paypad {
               
         // Get data
         var storedInput = this.payAmountTextElement.dataset.input;        
-        console.log("Stored input: " + this.payAmountTextElement.dataset.input)
+        // console.log("Stored input: " + this.payAmountTextElement.dataset.input)
         
         
         //console.log(storedInput)
@@ -106,13 +105,16 @@ class Paypad {
     async sendPayRequest(amount) {
 
         //var mainnet_wallet_address = document.getElementById('mainnet_wallet_address').value ;        
-        var network_type = document.getElementById('network_type').dataset.network_type ;   
+        var network_type = document.getElementById('settings').dataset.network_type ;   
+        console.log("Network type: " + network_type)
         //var testnet_wallet_address = document.getElementById('testnet_wallet_address').value ; 
         var token_policyID = selectedToken.getAttribute('data-policyID');
         console.log(token_policyID);
         var token_name = selectedToken.innerText;   
         
-        var wallet_address = document.getElementById(network_type + "_wallet_address").value
+        // var wallet_address = document.getElementById(network_type + "_wallet_address").value
+        var wallet_address = document.getElementById("wallet_address").dataset.wallet_address
+        console.log("Wallet address: " + wallet_address)
 
         const now = new Date();
         //console.log("now:" + now)
@@ -173,7 +175,7 @@ numberButtons.forEach(button => {
   button.addEventListener('click', () => {
     var buttonAction = button.dataset.action
      
-    console.log('button action: ' + buttonAction)
+    // console.log('button action: ' + buttonAction)
     
     if (buttonAction >= "0" && buttonAction <= "9") {
         paypad.appendNumber(buttonAction)
